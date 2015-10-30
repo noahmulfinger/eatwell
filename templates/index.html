@@ -35,8 +35,38 @@
        <table class="table table-bordered">
         {% for user in users %}
             <tr> 
+                <td>{{ user.user_id }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+
+         <table class="table table-bordered">
+        {% for item in foodItems %}
+            <tr> 
+                <td>{{ item.item_id }}</td>
+                <td>{{ item.name }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+
+         <table class="table table-bordered">
+        {% for time in times %}
+            <tr> 
+                <td>{{ time.time_id }}</td>
+                <td>{{ time.date }}</td>
+                <td>{{ time.time }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+
+         <table class="table table-bordered">
+        {% for eat in eats %}
+            <tr> 
+                <td>{{ eat.user_id }}</td>
+                <td>{{ eat.item_id }}</td>
+                <td>{{ eat.time_id }}</td>
             </tr>
         {% endfor %}
         </table>

@@ -28,18 +28,42 @@ def showHome():
 
 	conn = mysql.connect()
 	cursor = conn.cursor()
-	cursor.execute("SELECT User.name, User.email from User")
 	
+	cursor.execute("SELECT User.user_id, User.name, User.email FROM User")
 	users = []
 	row = rowToDict(cursor)
 	while row is not None:
   		users.append(row)
   		row = rowToDict(cursor)
 
+
+  	cursor.execute("SELECT Food_Item.item_id, Food_Item.name FROM Food_Item")
+  	foodItems = []
+  	row = rowToDict(cursor)
+	while row is not None:
+  		foodItems.append(row)
+  		row = rowToDict(cursor)
+
+  	cursor.execute("SELECT Time.time_id, Time.date, Time.time FROM Time")
+	times = []
+  	row = rowToDict(cursor)
+	while row is not None:
+  		times.append(row)
+  		row = rowToDict(cursor)
+
+  	cursor.execute("SELECT * FROM Eats")
+	eats = []
+  	row = rowToDict(cursor)
+	while row is not None:
+  		eats.append(row)
+  		row = rowToDict(cursor)
+
+  	print eats
+
 	cursor.close() 
 	conn.close()
 
-	return render_template('index.html', users=users)
+	return render_template('index.html', users=users, foodItems=foodItems, times=times, eats=eats)
 
 def rowToDict(cursor):
 	data = cursor.fetchone()
@@ -128,14 +152,16 @@ def doSignUp():
 		inputEmail = request.form['inputEmail']
 		inputPassword = request.form['inputPassword']
 
+		conn = mysql.connect()
+		cursor = conn.cursor()
+
 		# validate the received values
-		if _name and _email and _password:
+		if inputName and inputEmail and inputPassword:
 
 			# All Good, let's call MySQL
 
-			conn = mysql.connect()
-			cursor = conn.cursor()
-			_hashed_password = generate_password_hash(_password)
+			
+			_hashed_password = generate_password_hash(inputPassword)
 			cursor.callproc('sp_createUser',(inputName,inputEmail,inputPassword))
 			data = cursor.fetchall()
 
@@ -154,6 +180,7 @@ def doSignUp():
 			flash(message)
 			return redirect(url_for('signUp'))
 	except Exception as e:
+		print e
 		message = Markup('<div class="flash alert alert-danger">There was an error signing in.</div>')
 		flash(message)
 		return redirect(url_for('signUp'))
