@@ -15,4 +15,5 @@ MYSQL_DATABASE_DB = 'yourdatabasename'
 MYSQL_DATABASE_HOST = 'localhost' 
 ```
 
-Then just run `python run.py` and open localhost:5000. 
+Then just run `python run.py` and open localhost:5000. Don't forget to add the tables from *createtablecommands.txt* 
+to your database first.
