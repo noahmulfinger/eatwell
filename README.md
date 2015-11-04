@@ -1,5 +1,5 @@
 # EatWell
-A Flask web app for a Databases class project. Allows users to keep a log of view all foods they eat
+A Flask web app for a Databases class project. Allows users to keep a log of and view all foods they eat
 and all allergy-related symptoms they may have.
 
 ### Setup
@@ -15,4 +15,5 @@ MYSQL_DATABASE_DB = 'yourdatabasename'
 MYSQL_DATABASE_HOST = 'localhost' 
 ```
 
-Then just run `python run.py` and open localhost:5000. 
+Then just run `python run.py` and open localhost:5000. Don't forget to add the tables from *createtablecommands.txt* 
+to your database first.
