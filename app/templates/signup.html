@@ -19,8 +19,8 @@
       <div class="header">
         <nav>
           <ul class="nav nav-pills pull-right">
-            <li role="presentation" ><a href="/home">Home</a></li>
-             <li role="presentation"><a href="/signin">Sign In</a></li>
+            <li role="presentation" ><a href="/index">Home</a></li>
+             <li role="presentation"><a href="/login">Sign In</a></li>
               <li role="presentation" class="active"><a href="#">Sign Up</a></li>
           </ul>
         </nav>
@@ -30,16 +30,16 @@
       <div class="jumbotron">
         <h1>EatWell</h1>
         
-        <form class="form-signin" method=post action="{{ url_for('doSignUp') }}">
+        <form class="form-signin" method=post action="{{ url_for('dosignup') }}">
         {% for message in get_flashed_messages() %}
             {{ message }}
         {% endfor %}
-        <label for="inputName" class="sr-only">Name</label>
-        <input type="name" name="inputName" id="inputName" class="form-control" placeholder="Name" required autofocus>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
+        <label for="input_name" class="sr-only">Name</label>
+        <input type="name" name="input_name" id="input_name" class="form-control" placeholder="Name" required autofocus>
+        <label for="input_email" class="sr-only">Email address</label>
+        <input type="email" name="input_email" id="input_email" class="form-control" placeholder="Email address" required autofocus>
+        <label for="input_password" class="sr-only">Password</label>
+        <input type="password" name="input_password" id="input_password" class="form-control" placeholder="Password" required>
         
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
       </form>

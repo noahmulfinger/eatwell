@@ -21,7 +21,7 @@
         <nav>
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="#">Home</a></li>
-            <li role="presentation"><a href="/signout">Sign Out</a></li>
+            <li role="presentation"><a href="/logout">Sign Out</a></li>
           </ul>
         </nav>
         <h3 class="text-muted">EatWell</h3>
@@ -32,6 +32,7 @@
     {% endfor %}
 
     <div>
+        <h3>Users Table</h3>
        <table class="table table-bordered">
         {% for user in users %}
             <tr> 
@@ -42,8 +43,9 @@
         {% endfor %}
         </table>
 
+        <h3>Food Items Table</h3>
          <table class="table table-bordered">
-        {% for item in foodItems %}
+        {% for item in food_items %}
             <tr> 
                 <td>{{ item.item_id }}</td>
                 <td>{{ item.name }}</td>
@@ -51,6 +53,7 @@
         {% endfor %}
         </table>
 
+        <h3>Times Table</h3>
          <table class="table table-bordered">
         {% for time in times %}
             <tr> 
@@ -61,12 +64,29 @@
         {% endfor %}
         </table>
 
+        <h3>Eats Relationship Table</h3>
          <table class="table table-bordered">
+            <tr> 
+                <td>User ID</td>
+                <td>Food Item ID</td>
+                <td>Time ID</td>
+            </tr>
         {% for eat in eats %}
             <tr> 
                 <td>{{ eat.user_id }}</td>
                 <td>{{ eat.item_id }}</td>
                 <td>{{ eat.time_id }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+
+
+        <h3>Meals associated with current user</h3>
+          <table class="table table-bordered">
+        {% for meal in user_meals %}
+            <tr> 
+                <td>{{ meal.item_id }}</td>
+                <td>{{ meal.name }}</td>
             </tr>
         {% endfor %}
         </table>
