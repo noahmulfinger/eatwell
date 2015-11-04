@@ -6,7 +6,7 @@ from app import app, mysql, models #, login_manager
 
 #from flask.ext.login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
 
-
+# Not the best way to do this, look in to Flask-Login
 global user_id
 user_id = None
 
@@ -14,8 +14,6 @@ user_id = None
 @app.route('/index')
 # @login_required
 def index():
-
-	print session.get(user_id)
 	if not session.get(user_id):
 		message = Markup('<div class="flash alert alert-danger">You are not signed in.</div>')
 		flash(message)
