@@ -1,5 +1,5 @@
 # EatWell
-A Flask web app for a Databases class project. Allows users to keep a log of view all foods they eat
+A Flask web app for a Databases class project. Allows users to keep a log of and view all foods they eat
 and all allergy-related symptoms they may have.
 
 ### Setup
