@@ -20,7 +20,7 @@
       <div class="header">
         <nav>
           <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="#">Home</a></li>
+            <li role="presentation"><a href="/">Home</a></li>
             <li role="presentation"><a href="/logout">Sign Out</a></li>
           </ul>
         </nav>
@@ -31,47 +31,40 @@
         {{ message }}
     {% endfor %}
 
+    <div><h2>{{ item[0].name }}</h2></div>
+
     <div>
-        <a class="btn btn-lg btn-info btn-block" href="/new">New Food Item</a>
-        <h3>Food History</h3>
+        <h3>Ingredients</h3>
           <table class="table table-bordered">
            <tr> 
                 <th>Name</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Options</th>
             </tr>
-        {% for meal in user_meals %}
+        {% for i in ingredients %}
             <tr> 
-                <td>{{ meal.name }}</td>
-                <td>{{ meal.date }}</td>
-                <td>{{ meal.time }}</td>
-                <td>
-                    <a class="btn btn-sm btn-info btn-block" href="/fooditem/{{ meal.item_id }}">Details</a>
-                </td>
+                <td>{{ i.name.title() }}</td>
             </tr>
         {% endfor %}
-        </table>
+        </table>     
 
-        <h3>Symptom History</h3>
+         <h3>Badges</h3>
           <table class="table table-bordered">
            <tr> 
-                <th>Description</th>
-                <th>Rating</th>
-                <th>Date</th>
-                <th>Time</th>
+                <th>Name</th>
             </tr>
-        {% for symptom in user_symptoms %}
+        {% for b in badges %}
             <tr> 
-                <td>{{ symptom.description }}</td>
-                <td>{{ symptom.rating }}</td>
-                <td>{{ symptom.date }}</td>
-                <td>{{ symptom.time }}</td>
+                <td>{{ b.name.title() }}</td>
             </tr>
         {% endfor %}
-        </table>
-      
+        </table>     
     </div>
+
+
+        
+       
+    
+ 
+ 
         <footer class="footer">
         </footer>
     </div>

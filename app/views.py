@@ -37,12 +37,22 @@ def index():
 	contains = get_data("SELECT * FROM Contains", cursor)
 	caused = get_data("SELECT * FROM Caused_By", cursor)
 
-	user_meals = get_data_with_vals("SELECT Food_Item.* FROM Food_Item, Eats, User WHERE Food_Item.item_id = Eats.item_id AND Eats.user_id = %s", [user_id], cursor)
+	user_meals = get_data_with_vals("SELECT Food_Item.*, Time.date, Time.time \
+									 FROM Food_Item, Eats, Time \
+									 WHERE Food_Item.item_id = Eats.item_id \
+									 AND Time.time_id = Eats.time_id \
+									 AND Eats.user_id = %s", [user_id], cursor)
+
+	user_symptoms = get_data_with_vals("SELECT Symptom.*, Has.rating, Time.date, Time.time \
+									    FROM Symptom, Has, Time\
+									    WHERE Symptom.symptom_id = Has.symptom_id \
+									    AND Time.time_id = Has.time_id \
+									    AND Has.user_id = %s", [user_id], cursor)
 
 	cursor.close() 
 	conn.close()
 
-	return render_template('index.html', users=users, food_items=food_items, times=times, eats=eats, user_meals=user_meals)
+	return render_template('index.html',  user_meals=user_meals, user_symptoms=user_symptoms)
 
 def get_data(query, cursor):
 	cursor.execute(query)
@@ -57,6 +67,7 @@ def get_data_with_vals(query, values, cursor):
 	cursor.execute(query, values)
 	data = []
 	row = row_to_dict(cursor)
+	
 	while row is not None:
 		data.append(row)
 		row = row_to_dict(cursor)
@@ -73,6 +84,88 @@ def row_to_dict(cursor):
 		dict[name[0]] = value
 	return dict
 
+
+@app.route('/fooditem/<item_id>')
+def get_item(item_id):
+	if not session.get(user_id):
+		message = Markup('<div class="flash alert alert-danger">You are not signed in.</div>')
+		flash(message)
+		return redirect(url_for('login'))
+
+	conn = mysql.connect()
+	cursor = conn.cursor()
+
+	item = get_data_with_vals("SELECT Food_Item.* \
+							   FROM Food_Item \
+							   WHERE Food_Item.item_id = %s", [item_id], cursor)
+
+	if not item:
+		message = Markup('<div class="flash alert alert-danger">Food item does not exist.</div>')
+		flash(message)
+		return redirect(url_for('index'))
+
+	ingredients = get_data_with_vals("SELECT Ingredient.* \
+									  FROM Ingredient, Contains \
+									  WHERE Contains.item_id = %s \
+									  AND Ingredient.ingredient_id = Contains.ingredient_id",
+									  [item_id], cursor)
+
+	badges = get_data_with_vals("SELECT Badge.* \
+								 FROM Badge, Tagged_With \
+								 WHERE Tagged_With.item_id = %s \
+								 AND Badge.badge_id = Tagged_With.badge_id",
+								 [item_id], cursor)
+
+	cursor.close() 
+	conn.close()
+
+
+	return render_template('fooditem.html', item=item, ingredients=ingredients, badges=badges)
+
+@app.route('/new')
+def new_item():
+	return render_template('newitem.html')
+
+@app.route('/additem', methods=['POST','GET'])
+def add_item():
+	input_name = request.form['input_food_item']
+	input_ingr = request.form['input_ingr']
+
+	if input_name and input_ingr:
+
+		conn = mysql.connect()
+		cursor = conn.cursor()
+
+		statement = "INSERT INTO Food_Item (name) VALUES (%s)"
+		cursor.execute(statement, [input_name])
+		query = "SELECT Food_Item.item_id FROM Food_Item WHERE Food_Item.name = %s"
+		cursor.execute(query, [input_name])
+		data = cursor.fetchone()
+		item_id = int(data[0])
+		print item_id
+		ingr_list = map(str.strip, str(input_ingr).split(','))
+		for ingr in ingr_list:
+			statement = "INSERT INTO Ingredient (name) VALUES (%s)"
+			cursor.execute(statement, [ingr])
+			query = "SELECT Ingredient.ingredient_id FROM Ingredient WHERE Ingredient.name = %s"
+			cursor.execute(query, [ingr])
+			data = cursor.fetchone()
+			ingr_id = int(data[0])
+			print ingr_id
+			statement = "INSERT INTO Contains VALUES (%s, %s)"
+			cursor.execute(statement, [ingr_id, item_id])
+
+		cursor.close() 
+		conn.close()
+
+
+		return redirect(url_for('index'))
+
+	message = Markup('<div class="flash alert alert-danger">Please fill out all fields.</div>')
+	flash(message)
+	return redirect(url_for('new_item'))
+
+
 @app.route('/login')
 def login():
 	return render_template('login.html')
@@ -80,19 +173,6 @@ def login():
 
 @app.route('/dologin',methods=['POST','GET'])
 def dologin():
-
-	# user = User.get(request.form['input_email'], request.form['input_password'])
-
-	# if user:
-	# 	login_user(user)
-	# 	message = Markup('<div class="flash alert alert-success">Login successful!</div>')
-	# 	flash(message)
-	# 	return redirect(url_for('index'))
-	# else:
-	# 	message = Markup('<div class="flash alert alert-danger">Incorrect email and/or password.</div>')
-	# 	flash(message)
-	# 	return redirect(url_for('login'))
-
 
 	try:
 		input_email = request.form['input_email']

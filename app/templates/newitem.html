@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+ <head>
+    <title>EatWell</title>
+
+    <script src="../static/js/jquery.min.js"></script>
+
+   <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+    
+   
+  </head>
+ 
+<body>
+ 
+   <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation"><a href="/">Home</a></li>
+            <li role="presentation"><a href="/logout">Sign Out</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">EatWell</h3>
+    </div>
+
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+
+    <div><h2>New Item</h2></div>
+
+    <div>
+        {% for message in get_flashed_messages() %}
+            {{ message }}
+        {% endfor %}
+        <form class="form-signin" method=post action="{{ url_for('add_item') }}">
+        <label for="input_food_item" class="sr-only">Food Item</label>
+        <input type="name" name="input_food_item" id="input_food_item" class="form-control" placeholder="Food Item" required autofocus>
+        <label for="input_ingr" class="sr-only">Ingredients</label>
+        <input type="name" name="input_ingr" id="input_ingr" class="form-control" placeholder="Ingredients" required autofocus>  
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Add Item</button>
+      </form>
+    </div>
+
+
+        
+       
+    
+ 
+ 
+        <footer class="footer">
+        </footer>
+    </div>
+</body>
+ 
+</html>
