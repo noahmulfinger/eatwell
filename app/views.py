@@ -126,15 +126,17 @@ def get_item(item_id):
 
 @app.route('/newitem')
 def new_item():
+	if not session.get(user_id):
+		message = Markup('<div class="flash alert alert-danger">You are not signed in.</div>')
+		flash(message)
+		return redirect(url_for('login'))
+
 	return render_template('newitem.html')
 
 @app.route('/additem', methods=['POST','GET'])
 def add_item():
 	input_name = request.form['input_food_item']
 	input_ingr = request.form['input_ingr']
-
-	print input_name
-	print str(input_name)
 
 	if input_name and input_ingr:
 
@@ -191,11 +193,53 @@ def add_item():
 
 @app.route('/newsymptom')
 def new_symptom():
+	if not session.get(user_id):
+		message = Markup('<div class="flash alert alert-danger">You are not signed in.</div>')
+		flash(message)
+		return redirect(url_for('login'))
+		
 	return render_template('newsymptom.html')
 
 @app.route('/addsymptom', methods=['POST','GET'])
 def add_symptom():
-	# TODO: Do adding of symptoms
+	input_symptom = request.form['input_symptom']
+	input_rating = request.form['input_rating']
+
+	if input_symptom and input_rating:
+
+		conn = mysql.connect()
+		cursor = conn.cursor()
+
+		# Insert symptom and then get its id
+		statement = "INSERT INTO Symptom (description) VALUES (%s)"
+		cursor.execute(statement, [input_symptom])
+		query = "SELECT Symptom.symptom_id FROM Symptom WHERE Symptom.description = %s"
+		cursor.execute(query, [input_symptom])
+		data = cursor.fetchone()
+		symptom_id = int(data[0])
+
+		# Insert time and then get its id
+		now_date = time.strftime('%Y-%m-%d')
+		now_time = time.strftime('%H:%M:%S')
+		statement = "INSERT INTO Time (date, time) VALUES (%s, %s)"
+		cursor.execute(statement, [now_date, now_time])
+		query = "SELECT Time.time_id FROM Time WHERE Time.date = %s AND Time.time = %s"
+		cursor.execute(query, [now_date, now_time])
+		data = cursor.fetchone()
+		time_id = int(data[0])
+
+		# Insert eats relationship using above ids and current user id
+		statement = "INSERT INTO Has (time_id, symptom_id, user_id, rating) VALUES (%s, %s, %s, %s)"
+		cursor.execute(statement, [time_id, symptom_id, user_id, input_rating])
+
+		conn.commit()
+		cursor.close() 
+		conn.close()
+
+		return redirect(url_for('index'))
+
+	message = Markup('<div class="flash alert alert-danger">Please fill out all fields.</div>')
+	flash(message)
 	return render_template('newsymptom.html')
 
 
@@ -317,9 +361,10 @@ def dosignup():
 
 @app.route('/logout')
 def logout():
-	session.pop(user_id)
-	# logout_user()
-	message = Markup('<div class="flash alert alert-info">You have been signed out!</div>')
-	flash(message)
+	if session.get(user_id):
+		session.pop(user_id)
+		# logout_user()
+		message = Markup('<div class="flash alert alert-info">You have been signed out!</div>')
+		flash(message)
 	return redirect(url_for('login'))
 
