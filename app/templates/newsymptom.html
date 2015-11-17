@@ -31,24 +31,17 @@
         {{ message }}
     {% endfor %}
 
-    <div><h2>New Item</h2></div>
+    <div><h2>New Symptom</h2></div>
 
     <div>
-        <form class="form-signin" method=post action="{{ url_for('add_item') }}">
-        <label for="input_food_item" class="sr-only">Food Item</label>
-        <input type="name" name="input_food_item" id="input_food_item" class="form-control" placeholder="Food Item" required autofocus>
-        <label for="input_ingr" class="sr-only">Ingredients</label>
-        <input type="name" name="input_ingr" id="input_ingr" class="form-control" placeholder="Ingredients" required autofocus>  
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Add Item</button>
+        <form class="form-signin" method=post action="{{ url_for('add_symptom') }}">
+        <label for="input_symptom" class="sr-only">Symptom</label>
+        <input type="name" name="input_symptom" id="input_symptom" class="form-control" placeholder="Symptom" required autofocus>
+        <label for="rating" class="sr-only">Rating</label>
+        <input type="name" name="rating" id="rating" class="form-control" placeholder="Symptom" required autofocus>  
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Add Symptom</button>
       </form>
     </div>
-
-
-        
-       
-    
- 
- 
         <footer class="footer">
         </footer>
     </div>

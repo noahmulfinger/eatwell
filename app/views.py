@@ -2,6 +2,8 @@ from flask import Flask, g, render_template, session, request, redirect, url_for
 from werkzeug import generate_password_hash, check_password_hash
 from app import app, mysql, models #, login_manager
 
+import time
+
 #from .models import User
 
 #from flask.ext.login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
@@ -122,7 +124,7 @@ def get_item(item_id):
 
 	return render_template('fooditem.html', item=item, ingredients=ingredients, badges=badges)
 
-@app.route('/new')
+@app.route('/newitem')
 def new_item():
 	return render_template('newitem.html')
 
@@ -131,30 +133,51 @@ def add_item():
 	input_name = request.form['input_food_item']
 	input_ingr = request.form['input_ingr']
 
+	print input_name
+	print str(input_name)
+
 	if input_name and input_ingr:
 
 		conn = mysql.connect()
 		cursor = conn.cursor()
 
+		# Insert item and then get its id
 		statement = "INSERT INTO Food_Item (name) VALUES (%s)"
 		cursor.execute(statement, [input_name])
 		query = "SELECT Food_Item.item_id FROM Food_Item WHERE Food_Item.name = %s"
 		cursor.execute(query, [input_name])
 		data = cursor.fetchone()
 		item_id = int(data[0])
-		print item_id
+
+		# Insert time and then get its id
+		now_date = time.strftime('%Y-%m-%d')
+		now_time = time.strftime('%H:%M:%S')
+		statement = "INSERT INTO Time (date, time) VALUES (%s, %s)"
+		cursor.execute(statement, [now_date, now_time])
+		query = "SELECT Time.time_id FROM Time WHERE Time.date = %s AND Time.time = %s"
+		cursor.execute(query, [now_date, now_time])
+		data = cursor.fetchone()
+		time_id = int(data[0])
+
+		# Insert eats relationship using above ids and current user id
+		statement = "INSERT INTO Eats (time_id, user_id, item_id) VALUES (%s, %s, %s)"
+		cursor.execute(statement, [time_id, user_id, item_id])
+
 		ingr_list = map(str.strip, str(input_ingr).split(','))
 		for ingr in ingr_list:
+			# Insert ingredient and get its id
 			statement = "INSERT INTO Ingredient (name) VALUES (%s)"
 			cursor.execute(statement, [ingr])
 			query = "SELECT Ingredient.ingredient_id FROM Ingredient WHERE Ingredient.name = %s"
 			cursor.execute(query, [ingr])
 			data = cursor.fetchone()
 			ingr_id = int(data[0])
-			print ingr_id
-			statement = "INSERT INTO Contains VALUES (%s, %s)"
+
+			# Insert contains relationships using item id and ingredient ids
+			statement = "INSERT INTO Contains (ingredient_id, item_id) VALUES (%s, %s)"
 			cursor.execute(statement, [ingr_id, item_id])
 
+		conn.commit()
 		cursor.close() 
 		conn.close()
 
@@ -164,6 +187,16 @@ def add_item():
 	message = Markup('<div class="flash alert alert-danger">Please fill out all fields.</div>')
 	flash(message)
 	return redirect(url_for('new_item'))
+
+
+@app.route('/newsymptom')
+def new_symptom():
+	return render_template('newsymptom.html')
+
+@app.route('/addsymptom', methods=['POST','GET'])
+def add_symptom():
+	# TODO: Do adding of symptoms
+	return render_template('newsymptom.html')
 
 
 @app.route('/login')
@@ -211,8 +244,6 @@ def dologin():
 				return redirect(url_for('index'))
 			else:
 				message = Markup('<div class="flash alert alert-danger">Incorrect email and/or password.</div>')
-				# flash(message)
-				# return redirect(url_for('login'))
 
 		else:
 			message = Markup('<div class="flash alert alert-danger">Please fill out all fields.</div>')

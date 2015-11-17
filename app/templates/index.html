@@ -25,53 +25,59 @@
           </ul>
         </nav>
         <h3 class="text-muted">EatWell</h3>
-    </div>
+      </div>
 
     {% for message in get_flashed_messages() %}
         {{ message }}
     {% endfor %}
 
-    <div>
-        <a class="btn btn-lg btn-info btn-block" href="/new">New Food Item</a>
-        <h3>Food History</h3>
-          <table class="table table-bordered">
-           <tr> 
-                <th>Name</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Options</th>
+        <table class="table">
+            <tr>
+                <td><a class="btn btn-md btn-info btn-block" href="/newitem">New Food Item</a></td>
+                <td><a class="btn btn-md btn-info btn-block" href="/newsymptom">New Symptom</a></td>
             </tr>
-        {% for meal in user_meals %}
-            <tr> 
-                <td>{{ meal.name }}</td>
-                <td>{{ meal.date }}</td>
-                <td>{{ meal.time }}</td>
-                <td>
-                    <a class="btn btn-sm btn-info btn-block" href="/fooditem/{{ meal.item_id }}">Details</a>
-                </td>
-            </tr>
-        {% endfor %}
         </table>
 
-        <h3>Symptom History</h3>
-          <table class="table table-bordered">
-           <tr> 
-                <th>Description</th>
-                <th>Rating</th>
-                <th>Date</th>
-                <th>Time</th>
-            </tr>
-        {% for symptom in user_symptoms %}
-            <tr> 
-                <td>{{ symptom.description }}</td>
-                <td>{{ symptom.rating }}</td>
-                <td>{{ symptom.date }}</td>
-                <td>{{ symptom.time }}</td>
-            </tr>
-        {% endfor %}
-        </table>
-      
-    </div>
+        <div>
+            <h3>Food History</h3>
+              <table class="table table-bordered">
+               <tr> 
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Options</th>
+                </tr>
+            {% for meal in user_meals %}
+                <tr> 
+                    <td>{{ meal.name }}</td>
+                    <td>{{ meal.date }}</td>
+                    <td>{{ meal.time }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-info btn-block" href="/fooditem/{{ meal.item_id }}">Details</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+
+            <h3>Symptom History</h3>
+              <table class="table table-bordered">
+               <tr> 
+                    <th>Description</th>
+                    <th>Rating</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            {% for symptom in user_symptoms %}
+                <tr> 
+                    <td>{{ symptom.description }}</td>
+                    <td>{{ symptom.rating }}</td>
+                    <td>{{ symptom.date }}</td>
+                    <td>{{ symptom.time }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+          
+        </div>
         <footer class="footer">
         </footer>
     </div>
