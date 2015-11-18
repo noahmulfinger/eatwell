@@ -1,8 +1,11 @@
+use eatwell;
+
 CREATE TABLE User(
  	user_id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(100) NOT NULL,
 	email VARCHAR(100) NOT NULL,
 	password VARCHAR(255) NOT NULL,
+    UNIQUE KEY (email),
 	PRIMARY KEY (user_id)
 );
 
@@ -10,13 +13,6 @@ CREATE TABLE Food_Item(
 	item_id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(100) NOT NULL,
 	PRIMARY KEY (item_id)
-);
-
-CREATE TABLE Time(
-	time_id INT NOT NULL,
-	date DATE
-	time TIME
-	PRIMARY KEY (time_id)
 );
 
 CREATE TABLE Symptom(
@@ -40,22 +36,20 @@ CREATE TABLE Ingredient(
 CREATE TABLE Eats(
 	user_id INT NOT NULL,
 	item_id INT NOT NULL,
-	time_id INT NOT NULL,
-	PRIMARY KEY (user_id, item_id, time_id),
+	time DATETIME,
+	PRIMARY KEY (user_id, item_id, time),
 	FOREIGN KEY (user_id) REFERENCES User(user_id),
-	FOREIGN KEY (item_id) REFERENCES Food_Item(item_id),
-	FOREIGN KEY (time_id) REFERENCES Time(time_id)
+	FOREIGN KEY (item_id) REFERENCES Food_Item(item_id)
 );
 
 CREATE TABLE Has(
-	time_id INT NOT NULL,
 	symptom_id INT NOT NULL,
 	user_id INT NOT NULL,
-	rating CHAR(1),
-	PRIMARY KEY (symptom_id, user_id, time_id),
+	rating VARCHAR(9),
+	time DATETIME,
+	PRIMARY KEY (symptom_id, user_id, time),
 	FOREIGN KEY (symptom_id) REFERENCES Symptom(symptom_id),
-	FOREIGN KEY (user_id) REFERENCES User(user_id),
-	FOREIGN KEY (time_id) REFERENCES Time(time_id)
+	FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
 CREATE TABLE Tagged_With(
@@ -63,7 +57,7 @@ CREATE TABLE Tagged_With(
    	item_id INT NOT NULL,
 	PRIMARY KEY (badge_id, item_id),
    	FOREIGN KEY (badge_id) REFERENCES Badge(badge_id),
-   	FOREIGN KEY (item_id) REFERENCES Food_Item(item_id),
+   	FOREIGN KEY (item_id) REFERENCES Food_Item(item_id)
 );
 
 CREATE TABLE Contains(

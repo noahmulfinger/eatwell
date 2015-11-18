@@ -27,7 +27,7 @@ def index():
 	#Entities
 	users = get_data("SELECT User.user_id, User.name, User.email FROM User", cursor)
   	food_items = get_data("SELECT Food_Item.item_id, Food_Item.name FROM Food_Item", cursor)
-  	times = get_data("SELECT Time.time_id, Time.date, Time.time FROM Time", cursor)
+  	# times = get_data("SELECT Time.time_id, Time.date, Time.time FROM Time", cursor)
   	symptoms = get_data("SELECT Symptom.symptom_id, Symptom.description FROM Symptom", cursor)
   	badges = get_data("SELECT Badge.badge_id, Badge.name FROM Badge", cursor)
   	ingredients = get_data("SELECT Ingredient.ingredient_id, Ingredient.name FROM Ingredient", cursor)
@@ -39,16 +39,14 @@ def index():
 	contains = get_data("SELECT * FROM Contains", cursor)
 	caused = get_data("SELECT * FROM Caused_By", cursor)
 
-	user_meals = get_data_with_vals("SELECT Food_Item.*, Time.date, Time.time \
-									 FROM Food_Item, Eats, Time \
+	user_meals = get_data_with_vals("SELECT Food_Item.*, Eats.time \
+									 FROM Food_Item, Eats \
 									 WHERE Food_Item.item_id = Eats.item_id \
-									 AND Time.time_id = Eats.time_id \
 									 AND Eats.user_id = %s", [user_id], cursor)
 
-	user_symptoms = get_data_with_vals("SELECT Symptom.*, Has.rating, Time.date, Time.time \
-									    FROM Symptom, Has, Time\
+	user_symptoms = get_data_with_vals("SELECT Symptom.*, Has.rating, Has.time \
+									    FROM Symptom, Has \
 									    WHERE Symptom.symptom_id = Has.symptom_id \
-									    AND Time.time_id = Has.time_id \
 									    AND Has.user_id = %s", [user_id], cursor)
 
 	cursor.close() 

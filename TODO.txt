@@ -1,0 +1,2 @@
+fix code to work with new table structure
+move code to functions.py

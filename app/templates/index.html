@@ -43,14 +43,12 @@
               <table class="table table-bordered">
                <tr> 
                     <th>Name</th>
-                    <th>Date</th>
-                    <th>Time</th>
+                    <th>When</th>
                     <th>Options</th>
                 </tr>
             {% for meal in user_meals %}
                 <tr> 
                     <td>{{ meal.name }}</td>
-                    <td>{{ meal.date }}</td>
                     <td>{{ meal.time }}</td>
                     <td>
                         <a class="btn btn-sm btn-info btn-block" href="/fooditem/{{ meal.item_id }}">
@@ -67,15 +65,13 @@
                <tr> 
                     <th>Description</th>
                     <th>Rating</th>
-                    <th>Date</th>
-                    <th>Time</th>
+                    <th>When</th>
                     <th>Options</th>
                 </tr>
             {% for symptom in user_symptoms %}
                 <tr> 
                     <td>{{ symptom.description }}</td>
                     <td>{{ symptom.rating }}</td>
-                    <td>{{ symptom.date }}</td>
                     <td>{{ symptom.time }}</td>
                      <td>
                          <a class="btn btn-sm btn-danger btn-block" href="/deletesymptom/{{ symptom.symptom_id }}">
