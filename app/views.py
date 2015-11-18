@@ -4,6 +4,8 @@ from app import app, mysql, models #, login_manager
 
 import time
 
+import functions
+
 #from .models import User
 
 #from flask.ext.login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
@@ -21,68 +23,19 @@ def index():
 		flash(message)
 		return redirect(url_for('login'))
 
-	conn = mysql.connect()
-	cursor = conn.cursor()
-	
-	#Entities
-	users = get_data("SELECT User.user_id, User.name, User.email FROM User", cursor)
-  	food_items = get_data("SELECT Food_Item.item_id, Food_Item.name FROM Food_Item", cursor)
-  	# times = get_data("SELECT Time.time_id, Time.date, Time.time FROM Time", cursor)
-  	symptoms = get_data("SELECT Symptom.symptom_id, Symptom.description FROM Symptom", cursor)
-  	badges = get_data("SELECT Badge.badge_id, Badge.name FROM Badge", cursor)
-  	ingredients = get_data("SELECT Ingredient.ingredient_id, Ingredient.name FROM Ingredient", cursor)
-	
-	#Relationships
-	eats = get_data("SELECT * FROM Eats", cursor)
-	has = get_data("SELECT * FROM Has", cursor)
-	tagged = get_data("SELECT * FROM Tagged_With", cursor)
-	contains = get_data("SELECT * FROM Contains", cursor)
-	caused = get_data("SELECT * FROM Caused_By", cursor)
-
-	user_meals = get_data_with_vals("SELECT Food_Item.*, Eats.time \
+	user_meals = functions.get_result("SELECT Food_Item.*, Eats.time \
 									 FROM Food_Item, Eats \
 									 WHERE Food_Item.item_id = Eats.item_id \
-									 AND Eats.user_id = %s", [user_id], cursor)
+									 AND Eats.user_id = %s", [user_id])
 
-	user_symptoms = get_data_with_vals("SELECT Symptom.*, Has.rating, Has.time \
+	user_symptoms = functions.get_result("SELECT Symptom.*, Has.rating, Has.time \
 									    FROM Symptom, Has \
 									    WHERE Symptom.symptom_id = Has.symptom_id \
-									    AND Has.user_id = %s", [user_id], cursor)
-
-	cursor.close() 
-	conn.close()
+									    AND Has.user_id = %s", [user_id])
 
 	return render_template('index.html',  user_meals=user_meals, user_symptoms=user_symptoms)
 
-def get_data(query, cursor):
-	cursor.execute(query)
-	data = []
-	row = row_to_dict(cursor)
-	while row is not None:
-		data.append(row)
-		row = row_to_dict(cursor)
-	return data
 
-def get_data_with_vals(query, values, cursor):
-	cursor.execute(query, values)
-	data = []
-	row = row_to_dict(cursor)
-	
-	while row is not None:
-		data.append(row)
-		row = row_to_dict(cursor)
-	return data
-
-
-def row_to_dict(cursor):
-	data = cursor.fetchone()
-	desc = cursor.description
-	if data is None:
-		return None
-	dict = {}
-	for (name, value) in zip(desc, data):
-		dict[name[0]] = value
-	return dict
 
 
 @app.route('/fooditem/<item_id>')
@@ -92,33 +45,26 @@ def get_item(item_id):
 		flash(message)
 		return redirect(url_for('login'))
 
-	conn = mysql.connect()
-	cursor = conn.cursor()
-
-	item = get_data_with_vals("SELECT Food_Item.* \
+	item = functions.get_result("SELECT Food_Item.* \
 							   FROM Food_Item \
-							   WHERE Food_Item.item_id = %s", [item_id], cursor)
+							   WHERE Food_Item.item_id = %s", [item_id])
 
 	if not item:
 		message = Markup('<div class="flash alert alert-danger">Food item does not exist.</div>')
 		flash(message)
 		return redirect(url_for('index'))
 
-	ingredients = get_data_with_vals("SELECT Ingredient.* \
+	ingredients = functions.get_result("SELECT Ingredient.* \
 									  FROM Ingredient, Contains \
 									  WHERE Contains.item_id = %s \
 									  AND Ingredient.ingredient_id = Contains.ingredient_id",
-									  [item_id], cursor)
+									  [item_id])
 
-	badges = get_data_with_vals("SELECT Badge.* \
+	badges = functions.get_result("SELECT Badge.* \
 								 FROM Badge, Tagged_With \
 								 WHERE Tagged_With.item_id = %s \
 								 AND Badge.badge_id = Tagged_With.badge_id",
-								 [item_id], cursor)
-
-	cursor.close() 
-	conn.close()
-
+								 [item_id])
 
 	return render_template('fooditem.html', item=item, ingredients=ingredients, badges=badges)
 

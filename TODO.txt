@@ -1,2 +1,5 @@
 fix code to work with new table structure
+	remove Time operations
 move code to functions.py
+	create functions that do insert and return id, or just return id if data exists
+	abstract get_result to have separate functions for get meals and get symptoms
