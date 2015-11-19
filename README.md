@@ -7,8 +7,8 @@ After pulling the code, call `pip install -r requirements.txt` to install the ne
 Next, you will need to create a file called *config.py* in the top level of the directory structure, and populate it with the following information:
 
 ```
-MYSQL_DATABASE_USER = '*yourusername*'
-MYSQL_DATABASE_PASSWORD = '*yourpassword*'
+MYSQL_DATABASE_USER = \'*yourusername*\'
+MYSQL_DATABASE_PASSWORD = \'*yourpassword*\'
 MYSQL_DATABASE_DB = 'eatwell'
 MYSQL_DATABASE_HOST = 'localhost' 
 ```
