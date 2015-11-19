@@ -14,6 +14,9 @@ import functions
 global user_id
 user_id = None
 
+global user_name
+user_name = None
+
 @app.route('/')
 @app.route('/index')
 # @login_required
@@ -23,17 +26,10 @@ def index():
 		flash(message)
 		return redirect(url_for('login'))
 
-	user_meals = functions.get_result("SELECT Food_Item.*, Eats.time \
-									 FROM Food_Item, Eats \
-									 WHERE Food_Item.item_id = Eats.item_id \
-									 AND Eats.user_id = %s", [user_id])
+	user_meals = functions.get_food_items(user_id)
+	user_symptoms = functions.get_symptoms(user_id)
 
-	user_symptoms = functions.get_result("SELECT Symptom.*, Has.rating, Has.time \
-									    FROM Symptom, Has \
-									    WHERE Symptom.symptom_id = Has.symptom_id \
-									    AND Has.user_id = %s", [user_id])
-
-	return render_template('index.html',  user_meals=user_meals, user_symptoms=user_symptoms)
+	return render_template('index.html', user_meals=user_meals, user_symptoms=user_symptoms)
 
 
 
@@ -45,26 +41,15 @@ def get_item(item_id):
 		flash(message)
 		return redirect(url_for('login'))
 
-	item = functions.get_result("SELECT Food_Item.* \
-							   FROM Food_Item \
-							   WHERE Food_Item.item_id = %s", [item_id])
+	item = functions.get_food_item(item_id)
 
 	if not item:
 		message = Markup('<div class="flash alert alert-danger">Food item does not exist.</div>')
 		flash(message)
 		return redirect(url_for('index'))
 
-	ingredients = functions.get_result("SELECT Ingredient.* \
-									  FROM Ingredient, Contains \
-									  WHERE Contains.item_id = %s \
-									  AND Ingredient.ingredient_id = Contains.ingredient_id",
-									  [item_id])
-
-	badges = functions.get_result("SELECT Badge.* \
-								 FROM Badge, Tagged_With \
-								 WHERE Tagged_With.item_id = %s \
-								 AND Badge.badge_id = Tagged_With.badge_id",
-								 [item_id])
+	ingredients = functions.get_item_ingredients(item_id)
+	badges = functions.get_item_badges(item_id)
 
 	return render_template('fooditem.html', item=item, ingredients=ingredients, badges=badges)
 
@@ -79,55 +64,18 @@ def new_item():
 
 @app.route('/additem', methods=['POST','GET'])
 def add_item():
+	if not session.get(user_id):
+		message = Markup('<div class="flash alert alert-danger">You are not signed in.</div>')
+		flash(message)
+		return redirect(url_for('login'))
+
 	input_name = request.form['input_food_item']
 	input_ingr = request.form['input_ingr']
+	# input_time = request.form['input_time']
 
 	if input_name and input_ingr:
-
-		conn = mysql.connect()
-		cursor = conn.cursor()
-
-		# Insert item and then get its id
-		statement = "INSERT INTO Food_Item (name) VALUES (%s)"
-		cursor.execute(statement, [input_name])
-		query = "SELECT Food_Item.item_id FROM Food_Item WHERE Food_Item.name = %s"
-		cursor.execute(query, [input_name])
-		data = cursor.fetchone()
-		item_id = int(data[0])
-
-		# Insert time and then get its id
-		now_date = time.strftime('%Y-%m-%d')
-		now_time = time.strftime('%H:%M:%S')
-		statement = "INSERT INTO Time (date, time) VALUES (%s, %s)"
-		cursor.execute(statement, [now_date, now_time])
-		query = "SELECT Time.time_id FROM Time WHERE Time.date = %s AND Time.time = %s"
-		cursor.execute(query, [now_date, now_time])
-		data = cursor.fetchone()
-		time_id = int(data[0])
-
-		# Insert eats relationship using above ids and current user id
-		statement = "INSERT INTO Eats (time_id, user_id, item_id) VALUES (%s, %s, %s)"
-		cursor.execute(statement, [time_id, user_id, item_id])
-
-		ingr_list = map(str.strip, str(input_ingr).split(','))
-		for ingr in ingr_list:
-			# Insert ingredient and get its id
-			statement = "INSERT INTO Ingredient (name) VALUES (%s)"
-			cursor.execute(statement, [ingr])
-			query = "SELECT Ingredient.ingredient_id FROM Ingredient WHERE Ingredient.name = %s"
-			cursor.execute(query, [ingr])
-			data = cursor.fetchone()
-			ingr_id = int(data[0])
-
-			# Insert contains relationships using item id and ingredient ids
-			statement = "INSERT INTO Contains (ingredient_id, item_id) VALUES (%s, %s)"
-			cursor.execute(statement, [ingr_id, item_id])
-
-		conn.commit()
-		cursor.close() 
-		conn.close()
-
-
+		now = time.strftime('%Y-%m-%d %H:%M:%S')
+		functions.add_food_item(user_id, input_name, input_ingr, now)
 		return redirect(url_for('index'))
 
 	message = Markup('<div class="flash alert alert-danger">Please fill out all fields.</div>')
@@ -146,40 +94,18 @@ def new_symptom():
 
 @app.route('/addsymptom', methods=['POST','GET'])
 def add_symptom():
+	if not session.get(user_id):
+		message = Markup('<div class="flash alert alert-danger">You are not signed in.</div>')
+		flash(message)
+		return redirect(url_for('login'))
+
 	input_symptom = request.form['input_symptom']
 	input_rating = request.form['input_rating']
+	# input_time = request.form['input_time']
 
 	if input_symptom and input_rating:
-
-		conn = mysql.connect()
-		cursor = conn.cursor()
-
-		# Insert symptom and then get its id
-		statement = "INSERT INTO Symptom (description) VALUES (%s)"
-		cursor.execute(statement, [input_symptom])
-		query = "SELECT Symptom.symptom_id FROM Symptom WHERE Symptom.description = %s"
-		cursor.execute(query, [input_symptom])
-		data = cursor.fetchone()
-		symptom_id = int(data[0])
-
-		# Insert time and then get its id
-		now_date = time.strftime('%Y-%m-%d')
-		now_time = time.strftime('%H:%M:%S')
-		statement = "INSERT INTO Time (date, time) VALUES (%s, %s)"
-		cursor.execute(statement, [now_date, now_time])
-		query = "SELECT Time.time_id FROM Time WHERE Time.date = %s AND Time.time = %s"
-		cursor.execute(query, [now_date, now_time])
-		data = cursor.fetchone()
-		time_id = int(data[0])
-
-		# Insert eats relationship using above ids and current user id
-		statement = "INSERT INTO Has (time_id, symptom_id, user_id, rating) VALUES (%s, %s, %s, %s)"
-		cursor.execute(statement, [time_id, symptom_id, user_id, input_rating])
-
-		conn.commit()
-		cursor.close() 
-		conn.close()
-
+		now = time.strftime('%Y-%m-%d %H:%M:%S')
+		functions.add_symptom(user_id, input_symptom, input_rating, now)
 		return redirect(url_for('index'))
 
 	message = Markup('<div class="flash alert alert-danger">Please fill out all fields.</div>')
@@ -199,35 +125,26 @@ def dologin():
 		input_email = request.form['input_email']
 		input_password = request.form['input_password']
 
-
-		# validate the received values
 		if input_email and input_password:
+			user = functions.get_user_info(input_email)
 
-			conn = mysql.connect()
-			cursor = conn.cursor()
-
-			query = "SELECT User.user_id, User.name, User.password FROM User WHERE User.email = %s"
-			cursor.execute(query, [input_email])
-			data = cursor.fetchone()
-
-			cursor.close() 
-			conn.close()
-
-			if data is None:
+			if user is None:
 				message = Markup('<div class="flash alert alert-danger">Incorrect email and/or password.</div>')
 				flash(message)
 				return redirect(url_for('login'))
 
 			
-			name = data[1]
-			password = data[2]
+			password = user['password']
 
 			if check_password_hash(password, input_password):
 				# login_user(unicode(user_id))
 				global user_id
-				user_id = str(data[0])
+				user_id = str(user['user_id'])
+				global user_name
+				user_name = user['name']
 				session[user_id] = True
-				message = Markup('<div class="flash alert alert-success">Welcome '+name+'!</div>')
+
+				message = Markup('<div class="flash alert alert-success">Welcome '+user_name+'!</div>')
 				flash(message)
 				return redirect(url_for('index'))
 			else:
@@ -257,49 +174,41 @@ def signup():
 
 @app.route('/dosignup',methods=['POST','GET'])
 def dosignup():
-	try:
-		input_name = request.form['input_name']
-		input_email = request.form['input_email']
-		input_password = request.form['input_password']
+	# try:
+	input_name = request.form['input_name']
+	input_email = request.form['input_email']
+	input_password = request.form['input_password']
 
-		conn = mysql.connect()
-		cursor = conn.cursor()
+	if input_name and input_email and input_password:
+		hashed_password = generate_password_hash(input_password)
+		user = functions.get_user_info(input_email)
 
-		# validate the received values
-		if input_name and input_email and input_password:
-	
-			hashed_password = generate_password_hash(input_password)
-			cursor.callproc('sp_createUser',(input_name,input_email,hashed_password))
-			data = cursor.fetchall()
+		if user is None:
 
-			if len(data) is 0:
-			    conn.commit()
+			functions.sign_up_user(input_name, input_email, hashed_password)
+			user = functions.get_user_info(input_email)
 
-			    query = "SELECT User.user_id FROM User WHERE User.email = %s"
-			    cursor.execute(query, [input_email])
-			    result = cursor.fetchone()
+			global user_id
+			user_id = str(user['user_id'])
+			global user_name
+			user_name = user['name']
+			session[user_id] = True
 
-			    global user_id
-			    user_id = str(result[0])
-			    session[user_id] = True
-			    message = Markup('<div class="flash alert alert-success">You have been signed up!</div>')
-			    flash(message)
-			    return redirect(url_for('index'))
-			else:
-				message = Markup('<div class="flash alert alert-danger">A user with that email already exists.</div>')
+			message = Markup('<div class="flash alert alert-success">You have been signed up!</div>')
+			flash(message)
+			return redirect(url_for('index'))
 		else:
-			message = Markup('<div class="flash alert alert-danger">Please fill out all fields.</div>')
-		
-		cursor.close() 
-		conn.close()
+			message = Markup('<div class="flash alert alert-danger">A user with that email already exists.</div>')		
+	else:
+		message = Markup('<div class="flash alert alert-danger">Please fill out all fields.</div>')
 
-		flash(message)
-		return redirect(url_for('signup'))
-	except Exception as e:
-		print e
-		message = Markup('<div class="flash alert alert-danger">There was an error signing you up.</div>')
-		flash(message)
-		return redirect(url_for('signup'))
+	flash(message)
+	return redirect(url_for('signup'))
+	# except Exception as e:
+	# 	print e
+	# 	message = Markup('<div class="flash alert alert-danger">There was an error signing you up.</div>')
+	# 	flash(message)
+	# 	return redirect(url_for('signup'))
 		
 
 
@@ -307,6 +216,7 @@ def dosignup():
 def logout():
 	if session.get(user_id):
 		session.pop(user_id)
+		session.pop(user_name)
 		# logout_user()
 		message = Markup('<div class="flash alert alert-info">You have been signed out!</div>')
 		flash(message)
