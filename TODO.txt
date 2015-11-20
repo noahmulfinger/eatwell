@@ -1,3 +1,5 @@
 try implementing html header fragment that can hold user_name
 make delete work
-add edit functionality
+	pass time info with delete button to know which specific user-food_item-time combo to delete
+add edit functionality?
+add autocomplete functionality based on existing food_items and ingredients

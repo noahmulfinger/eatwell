@@ -53,6 +53,18 @@ def get_item(item_id):
 
 	return render_template('fooditem.html', item=item, ingredients=ingredients, badges=badges)
 
+
+@app.route('/delete/<item_id>')
+def delete_item(item_id):
+	if not session.get(user_id):
+		message = Markup('<div class="flash alert alert-danger">You are not signed in.</div>')
+		flash(message)
+		return redirect(url_for('login'))
+
+	functions.delete_food_item(item_id)
+
+	return render_template('index.html')
+
 @app.route('/newitem')
 def new_item():
 	if not session.get(user_id):

@@ -43,7 +43,6 @@ def get_user_info(email):
 		return data[0]
 
 def add_food_item(user_id, item_name, ingr_list, time):
-
 	conn = mysql.connect()
 	cursor = conn.cursor()
 
@@ -92,6 +91,16 @@ def add_food_item(user_id, item_name, ingr_list, time):
 	conn.commit()
 	cursor.close()
 	conn.close()
+
+def delete_food_item(item_id):
+	conn = mysql.connect()
+	cursor = conn.cursor()
+
+	statement = "DELETE FROM Eats WHERE Eats.item_id = %s"
+	cursor.execute(statement, [item_id])
+
+	
+
 
 
 def add_symptom(user_id, symptom_name, rating, time):
