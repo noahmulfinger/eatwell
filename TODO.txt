@@ -1,5 +1,12 @@
-try implementing html header fragment that can hold user_name
-make delete work
-	pass time info with delete button to know which specific user-food_item-time combo to delete
-add edit functionality?
-add autocomplete functionality based on existing food_items and ingredients
+
+add ability to select from existing food items
+	possibly: add autocomplete functionality based on existing food_items and ingredients
+fill everything with lots more data
+datetime picker needs to be fixed
+styling: choose a good color, possibly logo
+
+Stretch goals:
+add edit functionality
+change code to use sqlalchemy
+add model for users to improve security
+modify structure of app

@@ -1,0 +1,11 @@
+.jumbo {
+/*  margin-left: 15%;
+  margin-right: 15%;*/
+  margin: auto;
+  max-width: 70%;
+  text-align: center;
+}
+
+.border {
+  margin-left: 30px;
+}

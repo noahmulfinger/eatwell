@@ -1,57 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
- 
- <head>
-    <title>EatWell</title>
+{% extends "base.html" %}
+{% block content %}
 
-    <script src="../static/js/jquery.min.js"></script>
 
-   <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <div class="jumbotron jumbo">    
 
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
-    <link href="../static/css/signup.css" rel="stylesheet">
-    
-   
-  </head>
- 
-<body>
- 
-   <div class="container">
-      <div class="header">
-        <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation"><a href="/">Home</a></li>
-            <li role="presentation"><a href="/logout">Sign Out</a></li>
-          </ul>
-        </nav>
-        <h3 class="text-muted">EatWell</h3>
-    </div>
-
-    {% for message in get_flashed_messages() %}
-        {{ message }}
-    {% endfor %}
-
-    <div><h2>New Item</h2></div>
-
-    <div>
-        <form class="form-signin" method=post action="{{ url_for('add_item') }}">
-        <label for="input_food_item" class="sr-only">Food Item</label>
-        <input type="name" name="input_food_item" id="input_food_item" class="form-control" placeholder="Food Item" required autofocus>
-        <label for="input_ingr" class="sr-only">Ingredients</label>
-        <input type="name" name="input_ingr" id="input_ingr" class="form-control" placeholder="Ingredients" required autofocus>  
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Add Item</button>
+      <h2>New Item</h2>
+        <form method=post action="{{ url_for('add_item') }}">
+        <div class="form-group">
+          <input type="name" name="input_food_item" id="input_food_item" class="form-control" placeholder="Food Item" required autofocus>
+        </div>
+        <div class="form-group">
+          <input type="name" name="input_ingr" id="input_ingr" class="form-control" placeholder="Ingredients" required>  
+        </div>
+        <div class="form-group">
+          <div id="timepicker" class="input-append">
+            <input name="input_time" data-format="hh:mm:ss" type="text" readonly></input>
+            <span class="add-on">
+              <button class="btn btn-xs">Time</button>
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <div id="datepicker" class="input-append">
+            <input name="input_date" data-format="yyyy-MM-dd" type="text" readonly></input>
+            <span class="add-on">
+              <button class="btn btn-xs">Date</button>
+            </span>
+          </div>
+        </div>
+        <button class="btn btn-lg btn-primary" type="submit">Add Item</button>
       </form>
-    </div>
 
-
-        
-       
-    
- 
- 
-        <footer class="footer">
-        </footer>
-    </div>
-</body>
- 
-</html>
+{% endblock %}

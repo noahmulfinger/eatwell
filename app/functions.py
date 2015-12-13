@@ -1,4 +1,6 @@
+from flask import Markup
 from app import mysql
+
 
 def get_food_items(user_id):
 	return get_result("SELECT Food_Item.*, Eats.time \
@@ -41,6 +43,12 @@ def get_user_info(email):
 		return None
 	else:
 		return data[0]
+
+
+def get_all_symptoms():
+	return get_result("SELECT Symptom.description \
+						FROM Symptom",[])
+
 
 def add_food_item(user_id, item_name, ingr_list, time):
 	conn = mysql.connect()
@@ -92,14 +100,27 @@ def add_food_item(user_id, item_name, ingr_list, time):
 	cursor.close()
 	conn.close()
 
-def delete_food_item(item_id):
+def delete_food_item(user_id, item_id, time):
 	conn = mysql.connect()
 	cursor = conn.cursor()
 
-	statement = "DELETE FROM Eats WHERE Eats.item_id = %s"
-	cursor.execute(statement, [item_id])
+	statement = "DELETE FROM Eats WHERE Eats.user_id = %s AND Eats.item_id = %s AND Eats.time = %s"
+	cursor.execute(statement, [user_id, item_id, time])
 
-	
+	conn.commit()
+	cursor.close()
+	conn.close()
+
+def delete_symptom(user_id, symptom_id, time):
+	conn = mysql.connect()
+	cursor = conn.cursor()
+
+	statement = "DELETE FROM Has WHERE Has.user_id = %s AND Has.symptom_id = %s AND Has.time = %s"
+	cursor.execute(statement, [user_id, symptom_id, time])
+
+	conn.commit()
+	cursor.close()
+	conn.close()
 
 
 
@@ -108,15 +129,14 @@ def add_symptom(user_id, symptom_name, rating, time):
 	conn = mysql.connect()
 	cursor = conn.cursor()
 
-	# Insert into Food_Item, if necessary
 	query = "SELECT Symptom.symptom_id FROM Symptom WHERE Symptom.description = %s"
-	statement = "INSERT INTO Symptom VALUES (0, %s)"
+	# statement = "INSERT INTO Symptom VALUES (0, %s)"
 	cursor.execute(query, [symptom_name])
 	data = cursor.fetchone()
-	if data is None:
-		cursor.execute(statement, [symptom_name])
-		cursor.execute(query, [symptom_name])
-		data = cursor.fetchone()
+	# if data is None:
+	# 	cursor.execute(statement, [symptom_name])
+	# 	cursor.execute(query, [symptom_name])
+	# 	data = cursor.fetchone()
 	symptom_id = int(data[0])
 
 	# Insert into Eats, if necessary
@@ -130,6 +150,23 @@ def add_symptom(user_id, symptom_name, rating, time):
 	conn.commit()
 	cursor.close()
 	conn.close()
+
+
+def get_flash_message(code):
+	codes = {
+		"not_logged_in": Markup('<div class="flash alert alert-danger">You are not logged in.</div>'),
+		"no_food_item": Markup('<div class="flash alert alert-danger">Food item does not exist.</div>'),
+		"empty_fields": Markup('<div class="flash alert alert-danger">Please fill out all fields.</div>'),
+		"bad_login": Markup('<div class="flash alert alert-danger">Incorrect email and/or password.</div>'),
+		"login_error": Markup('<div class="flash alert alert-danger">There was an error logging in.</div>'),
+		"logout": Markup('<div class="flash alert alert-info">You have been logged out!</div>'),
+		"signup": Markup('<div class="flash alert alert-success">You have been signed up!</div>'),
+		"email_exists": Markup('<div class="flash alert alert-danger">A user with that email already exists.</div>'),
+		"new_login": Markup('<div class="flash alert alert-success">Welcome!</div>'),
+		"del_item": Markup('<div class="flash alert alert-success">Food item deleted!</div>'),
+		"del_symptom": Markup('<div class="flash alert alert-success">Symptom deleted!</div>')
+	}
+	return codes.get(code)
 
 
 def sign_up_user(name, email, password):
