@@ -1,4 +1,5 @@
 
+issue: ingredients not separated by user, so user cannot view ingredients specific to user
 add ability to select from existing food items
 	possibly: add autocomplete functionality based on existing food_items and ingredients
 fill everything with lots more data
