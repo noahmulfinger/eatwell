@@ -13,6 +13,6 @@ MYSQL_DATABASE_DB = 'eatwell'
 MYSQL_DATABASE_HOST = 'localhost' 
 ```
 
-Next, start mysql and run `use eatwell;` (or create the eatwell database if it doesn't exist) and run `source setup.sql;` (You may need to add full path in front of file name). This will create all necessary tables and add some fake data.
+Next, start mysql and run `use eatwell;` (or create the eatwell database if it doesn't exist) and run `source db/setup.sql;` (You may need to add full path in front of file name). This will create all necessary tables and add some fake data.
 
 Finally, in the top level of the cloned directory, just run `python run.py` and open localhost:5000.
