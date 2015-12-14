@@ -5,6 +5,7 @@ DROP TABLE Contains;
 DROP TABLE Eats;
 DROP TABLE Has;
 DROP TABLE Tagged_With;
+-- hello --
 
 DROP TABLE Badge;
 DROP TABLE Food_Item;
