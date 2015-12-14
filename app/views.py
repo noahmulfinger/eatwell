@@ -47,7 +47,7 @@ def get_item(item_id):
 	return render_template('fooditem.html', item=item, ingredients=ingredients, badges=badges)
 
 
-@app.route('/deleteitem', methods=['POST','GET'])
+@app.route('/deleteitem', methods=['POST'])
 def delete_item():
 	if not session.get(user_id):
 		flash(functions.get_flash_message("not_logged_in"))
@@ -63,7 +63,7 @@ def delete_item():
 	return redirect(url_for('index'))
 
 
-@app.route('/deletesymptom', methods=['POST','GET'])
+@app.route('/deletesymptom', methods=['POST'])
 def delete_symptom():
 	if not session.get(user_id):
 		flash(functions.get_flash_message("not_logged_in"))
@@ -87,7 +87,7 @@ def new_item():
 
 	return render_template('newitem.html')
 
-@app.route('/additem', methods=['POST','GET'])
+@app.route('/additem', methods=['POST'])
 def add_item():
 	if not session.get(user_id):
 		flash(functions.get_flash_message("not_logged_in"))
@@ -95,11 +95,14 @@ def add_item():
 
 	input_name = request.form['input_food_item']
 	input_ingr = request.form['input_ingr']
-	# input_time = request.form['input_time']
+	datetime = request.form['datetime']
+	# print time.strftime('%Y-%m-%d %H:%M:%S', datetime)
 
-	if input_name and input_ingr:
-		now = time.strftime('%Y-%m-%d %H:%M:%S')
-		functions.add_food_item(user_id, input_name, input_ingr, now)
+	if input_name and input_ingr and datetime:
+
+		datetime = datetime + ':00'
+
+		functions.add_food_item(user_id, input_name, input_ingr, datetime)
 		flash(functions.get_flash_message("add_item"))
 		return redirect(url_for('index'))
 
@@ -117,7 +120,7 @@ def new_symptom():
 		
 	return render_template('newsymptom.html', symptoms=symptoms)
 
-@app.route('/addsymptom', methods=['POST','GET'])
+@app.route('/addsymptom', methods=['POST'])
 def add_symptom():
 	if not session.get(user_id):
 		flash(functions.get_flash_message("not_logged_in"))
@@ -125,20 +128,12 @@ def add_symptom():
 
 	input_symptom = request.form['input_symptom']
 	input_rating = request.form['input_rating']
-	input_datetime = request.form['datetime']
-	# input_time = request.form['input_time']
-	print input_datetime
+	datetime = request.form['datetime']
 
-	r = re.compile('\d{4}-\d{2}-\d{2} \d{2}:\d{2}')
-
-	print r.match(input_datetime)
-	print r.match('12-12-12 12:12')
-
-	if (input_symptom and input_rating and input_datetime and 
-		input_symptom != 'Select Symptom' and input_rating != 'Select Rating' 
-		and r.match(input_datetime) is not None):
+	if (input_symptom and input_rating and datetime and 
+		input_symptom != 'Select Symptom' and input_rating != 'Select Rating'):
 		
-		datetime = input_datetime + ':00'
+		datetime = datetime + ':00'
 
 		functions.add_symptom(user_id, input_symptom, input_rating, datetime)
 		flash(functions.get_flash_message("add_symptom"))
@@ -153,7 +148,7 @@ def login():
 	return render_template('login.html', logged_out=True)
 
 
-@app.route('/dologin',methods=['POST','GET'])
+@app.route('/dologin',methods=['POST'])
 def dologin():
 
 	try:
@@ -203,7 +198,7 @@ def signup():
     return render_template('signup.html', logged_out=True)
 
 
-@app.route('/dosignup',methods=['POST','GET'])
+@app.route('/dosignup',methods=['POST'])
 def dosignup():
 	# try:
 	input_name = request.form['input_name']

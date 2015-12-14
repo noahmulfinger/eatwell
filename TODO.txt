@@ -1,13 +1,31 @@
 
+
+Tasks:
 issue: ingredients not separated by user, so user cannot view ingredients specific to user
+	fix: new food item always created even if name is the same
 add ability to select from existing food items
-	possibly: add autocomplete functionality based on existing food_items and ingredients
+	fix: search for exact mach food item, show ingredients already selected and add ability to add ingredients
+
+
 fill everything with lots more data
+	-lots of food items with many different ingredients
+	-many users
+	-list of possible symptoms
+	-list of badges
+
+
+
 datetime picker needs to be fixed
-styling: choose a good color, possibly logo
+	-use material datetime picker aloke sent
+
+
+
+
+
 
 Stretch goals:
 add edit functionality
 change code to use sqlalchemy
 add model for users to improve security
 modify structure of app
+styling: choose a good color, possibly logo
