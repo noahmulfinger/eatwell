@@ -164,7 +164,9 @@ def get_flash_message(code):
 		"email_exists": Markup('<div class="flash alert alert-danger">A user with that email already exists.</div>'),
 		"new_login": Markup('<div class="flash alert alert-success">Welcome!</div>'),
 		"del_item": Markup('<div class="flash alert alert-success">Food item deleted!</div>'),
-		"del_symptom": Markup('<div class="flash alert alert-success">Symptom deleted!</div>')
+		"del_symptom": Markup('<div class="flash alert alert-success">Symptom deleted!</div>'),
+		"add_item": Markup('<div class="flash alert alert-success">Food item added!</div>'),
+		"add_symptom": Markup('<div class="flash alert alert-success">Symptom added!</div>')
 	}
 	return codes.get(code)
 

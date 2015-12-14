@@ -13,22 +13,11 @@
           <input type="name" name="input_ingr" id="input_ingr" class="form-control" placeholder="Ingredients" required>  
         </div>
         <div class="form-group">
-          <div id="timepicker" class="input-append">
-            <input name="input_time" data-format="hh:mm:ss" type="text" readonly></input>
-            <span class="add-on">
-              <button class="btn btn-xs">Time</button>
-            </span>
-          </div>
-        </div>
-        <div class="form-group">
-          <div id="datepicker" class="input-append">
-            <input name="input_date" data-format="yyyy-MM-dd" type="text" readonly></input>
-            <span class="add-on">
-              <button class="btn btn-xs">Date</button>
-            </span>
-          </div>
+          <label for="datetime">Date and Time yyyy-MM-dd hh:mm</label>
+          <input type="text" class="form-control" name="datetime" id="datetime" placeholder="yyyy-MM-dd hh:mm">
         </div>
         <button class="btn btn-lg btn-primary" type="submit">Add Item</button>
       </form>
+    </div>
 
 {% endblock %}

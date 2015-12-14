@@ -61,12 +61,28 @@
         <footer class="footer">
              <div class="test">
             </div>
-            <form>
-                <label for="term" class="sr-only">Food Search</label>
-                <input type="name" name="term" id="term" class="form-control" placeholder="Food Item" required>
+            <form method=post>
+                <input name="search" id="search" class="form-control">              
                 <button id="btnSearch" class="btn btn-lg btn-primary btn-block" type="button">Search</button>
             </form>
 
            
         </footer>
+
+
+
+        <script type=text/javascript>
+        //   $(function() {
+        //     $('#btnSearch').bind('click', function() {
+        //       $.getJSON('localhost:5000/autocomplete', {
+        //         a: $('input[name="search"]').val()
+        //       }, function(data) {
+        //         $(".test").text(data.result);
+        //       });
+        //       return false;
+        //     });
+        //   });
+        // </script>
+
+
 {% endblock %}

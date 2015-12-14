@@ -2,7 +2,7 @@ from flask import Flask, g, render_template, session, request, redirect, url_for
 from werkzeug import generate_password_hash, check_password_hash
 from app import app, mysql, models #, login_manager
 
-import time
+import time, re
 
 import functions
 
@@ -100,6 +100,7 @@ def add_item():
 	if input_name and input_ingr:
 		now = time.strftime('%Y-%m-%d %H:%M:%S')
 		functions.add_food_item(user_id, input_name, input_ingr, now)
+		flash(functions.get_flash_message("add_item"))
 		return redirect(url_for('index'))
 
 	flash(functions.get_flash_message("empty_fields"))
@@ -124,14 +125,23 @@ def add_symptom():
 
 	input_symptom = request.form['input_symptom']
 	input_rating = request.form['input_rating']
-	input_date = request.form['input_date']
-	input_time = request.form['input_time']
+	input_datetime = request.form['datetime']
+	# input_time = request.form['input_time']
+	print input_datetime
 
+	r = re.compile('\d{4}-\d{2}-\d{2} \d{2}:\d{2}')
 
-	if (input_symptom and input_rating and input_date and input_time and 
-		input_symptom != 'Select Symptom' and input_rating != 'Select Rating'):
-		datetime = input_date + ' ' + input_time
+	print r.match(input_datetime)
+	print r.match('12-12-12 12:12')
+
+	if (input_symptom and input_rating and input_datetime and 
+		input_symptom != 'Select Symptom' and input_rating != 'Select Rating' 
+		and r.match(input_datetime) is not None):
+		
+		datetime = input_datetime + ':00'
+
 		functions.add_symptom(user_id, input_symptom, input_rating, datetime)
+		flash(functions.get_flash_message("add_symptom"))
 		return redirect(url_for('index'))
 
 	flash(functions.get_flash_message("empty_fields"))
@@ -243,19 +253,25 @@ def logout():
 
 NAMES=["abc","abcd","abcde","abcdef"]
 
-@app.route('/autocomplete', methods=['POST','GET'])
+@app.route('/autocomplete', methods=['POST'])
 def autocomplete():
+
+	
+
 	results = []
 
 	# search = request.args.get('term')
-	search = request.form['term']
+	search = request.form['search']
 
 	search = '%' + str(search) + '%'
-	print search
+	# print search
 	query = """SELECT Food_Item.name FROM Food_Item WHERE Food_Item.name LIKE %s"""
 	result = functions.get_result(query, [search])
 
+	if result is None:
+		print "empty"
 	print result
+	# result = "hello"
 	
 	# conn = mysql.connect()
 	# cursor = conn.cursor()
@@ -267,6 +283,7 @@ def autocomplete():
 	# conn.close()
 
 	# results.append()
+	#return jsonify(result)
 	return json.dumps(result)
 
 
