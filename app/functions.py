@@ -6,12 +6,24 @@ def get_food_items(user_id):
 	return get_result("SELECT Food_Item.*, Eats.time \
 						FROM Food_Item, Eats \
 						WHERE Food_Item.item_id = Eats.item_id \
+						AND Eats.user_id = %s" , [user_id]
+						)
+def get_food_items_index(user_id):
+	return get_result("SELECT Food_Item.*, Eats.time \
+						FROM Food_Item, Eats \
+						WHERE Food_Item.item_id = Eats.item_id \
 						AND Eats.user_id = %s \
 						ORDER BY Eats.time \
 						LIMIT 5" , [user_id]
 						)
 
 def get_symptoms(user_id):
+	return get_result("SELECT Symptom.*, Has.rating, Has.time \
+						FROM Symptom, Has \
+						WHERE Symptom.symptom_id = Has.symptom_id \
+						AND Has.user_id = %s", [user_id])
+
+def get_symptoms_index(user_id):
 	return get_result("SELECT Symptom.*, Has.rating, Has.time \
 						FROM Symptom, Has \
 						WHERE Symptom.symptom_id = Has.symptom_id \
