@@ -293,28 +293,18 @@ def autocomplete_ingredients(food_item):
 
 	if result is None:
 		return []
-	ingr_result = functions.get_item_ingredients(result[0]["item_id"])
 
-	ingr_names = []
-
-	for i in range(len(ingr_result)):
-		ingr_names.append(ingr_result[i]["name"])
+	all_ingr = []
 
 
-	# result = "hello"
-	
-	# conn = mysql.connect()
-	# cursor = conn.cursor()
-	# query = """SELECT Food_Item.name FROM Food_Item WHERE Food_Item.name LIKE %s"""
-	# cursor.execute(query, [search])
-	# data = cursor.fetchall()
-	# print data
-	# cursor.close() 
-	# conn.close()
+	for i in range(len(result)):
+		ingr_list = functions.get_item_ingredients(result[i]["item_id"])
+		for ingredient in ingr_list:
+			all_ingr.append(ingredient["name"])
 
-	# results.append()
-	#return jsonify(result)
-	return json.dumps(ingr_names)
+	all_ingr_names = list(set(all_ingr))
+
+	return json.dumps(all_ingr_names)
 
 # class SearchForm(Form):
 # 	function_name = TextField('function_name', validators = [Required()])

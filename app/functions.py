@@ -55,14 +55,15 @@ def add_food_item(user_id, item_name, ingr_list, time):
 	cursor = conn.cursor()
 
 	# Insert into Food_Item, if necessary
-	query = "SELECT Food_Item.item_id FROM Food_Item WHERE Food_Item.name = %s"
+	# query = "SELECT MAX (Food_Item.item_id) FROM Food_Item WHERE Food_Item.name = %s"
+	query = "SELECT LAST_INSERT_ID()"
 	statement = "INSERT INTO Food_Item VALUES (0, %s)"
-	cursor.execute(query, [item_name])
+	# cursor.execute(query, [item_name])
+	#data = cursor.fetchone()
+	# if data is None:
+	cursor.execute(statement, [item_name])
+	cursor.execute(query)
 	data = cursor.fetchone()
-	if data is None:
-		cursor.execute(statement, [item_name])
-		cursor.execute(query, [item_name])
-		data = cursor.fetchone()
 	item_id = int(data[0])
 
 
