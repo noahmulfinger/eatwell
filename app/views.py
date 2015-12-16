@@ -26,7 +26,19 @@ def index():
 	user_symptoms = functions.get_symptoms_index(user_id)
 	user_symptoms.reverse()
 
-	return render_template('index.html', user_meals=user_meals, user_symptoms=user_symptoms)
+	return render_template('index.html', user_meals=user_meals, user_symptoms=user_symptoms, isIndex = True)
+
+
+@app.route('/search', methods=['POST'])
+def search():
+	if not session.get(user_id):
+		flash(functions.get_flash_message("not_logged_in"))
+		return redirect(url_for('login'))
+
+	item_search = request.form['search']
+	found_items = functions.search_food_by_name(item_search, user_id)
+
+	return render_template('index.html', user_meals = found_items, user_symptoms = [], isIndex = False)
 
 
 

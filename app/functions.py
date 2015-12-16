@@ -1,6 +1,12 @@
 from flask import Markup
 from app import mysql
 
+def search_food_by_name(item_name, user_id):
+	return get_result("SELECT Food_Item.*, Eats.time \
+						FROM Food_Item, Eats \
+						WHERE Food_Item.name = %s \
+						AND Food_Item.item_id = Eats.item_id \
+						AND Eats.user_id = %s", [item_name,user_id])
 
 def get_food_items(user_id):
 	return get_result("SELECT Food_Item.*, Eats.time \
