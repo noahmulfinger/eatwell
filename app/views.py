@@ -102,7 +102,13 @@ def add_item():
 		return redirect(url_for('login'))
 
 	input_name = request.form['input_food_item']
-	input_ingr = request.form['input_ingr']
+	input_ingr = request.form.getlist('input_ingr')
+
+	fItems = []
+	for i in input_ingr:
+		fItems.append(str(i))
+	
+
 	datetime = request.form['datetime']
 	# print time.strftime('%Y-%m-%d %H:%M:%S', datetime)
 
@@ -110,7 +116,7 @@ def add_item():
 
 		datetime = datetime + ':00'
 
-		functions.add_food_item(user_id, input_name, input_ingr, datetime)
+		functions.add_food_item(user_id, input_name, fItems, datetime)
 		flash(functions.get_flash_message("add_item"))
 		return redirect(url_for('index'))
 

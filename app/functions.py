@@ -71,12 +71,12 @@ def add_food_item(user_id, item_name, ingr_list, time):
 	statement = "INSERT INTO Eats VALUES (%s, %s, %s)"
 	cursor.execute(query, [user_id, item_id, time])
 	data = cursor.fetchone()
-	if data is None:
-		cursor.execute(statement, [user_id, item_id, time])
+	#if data is None:
+	cursor.execute(statement, [user_id, item_id, time])
 		
 	# Insert into Ingredients, if necessary
 	
-	ingr_list = map(str.strip, str(ingr_list).split(','))
+	# ingr_list = map(str.strip, str(ingr_list).split(','))
 	for ingr in ingr_list:
 		query = "SELECT Ingredient.ingredient_id FROM Ingredient WHERE Ingredient.name = %s"
 		statement = "INSERT INTO Ingredient VALUES (0, %s)"
