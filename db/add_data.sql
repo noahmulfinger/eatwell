@@ -29,20 +29,28 @@ INSERT INTO Ingredient VALUES (0, 'Pepper');
 -- Insert into Symptoms
 INSERT INTO Symptom VALUES (0, 'Headache');
 INSERT INTO Symptom VALUES (0, 'Nausea');
+INSERT INTO Symptom VALUES (0, 'Bloating');
+INSERT INTO Symptom VALUES (0, 'Migraine');
+INSERT INTO Symptom VALUES (0, 'Cough');
+INSERT INTO Symptom VALUES (0, 'Stomach ache');
+INSERT INTO Symptom VALUES (0, 'Hives');
+INSERT INTO Symptom VALUES (0, 'Irritable bowel');
 
 -- Insert into Badges
 INSERT INTO Badge VALUES (0, 'Gluten');
 INSERT INTO Badge VALUES (0, 'Lactose');
-
+INSERT INTO Badge VALUES (0, 'Fructose');
+INSERT INTO Badge VALUES (0, 'Salicylates');
+INSERT INTO Badge VALUES (0, 'Amines');
 -- Insert into Eats
 INSERT INTO Eats VALUES (1, 1, '2015-11-15 18:46:29');
 INSERT INTO Eats VALUES (1, 2, '2015-11-16 18:46:29');
 INSERT INTO Eats VALUES (2, 2, '2015-11-17 18:46:29');
 
 -- Insert into Has
-INSERT INTO Has VALUES (1, 1, 'mild', '2015-11-15 19:46:29');
-INSERT INTO Has VALUES (2, 1, 'moderate', '2015-11-16 19:46:29');
-INSERT INTO Has VALUES (2, 2, 'severe', '2015-11-17 19:46:29');
+INSERT INTO Has VALUES (1, 1, 'Mild', '2015-11-15 19:46:29');
+INSERT INTO Has VALUES (2, 1, 'Moderate', '2015-11-16 19:46:29');
+INSERT INTO Has VALUES (2, 2, 'Severe', '2015-11-17 19:46:29');
 
 -- Insert into Contains
 INSERT INTO Contains VALUES (1, 1);
