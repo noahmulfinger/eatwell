@@ -268,6 +268,47 @@ def test():
 
 	return render_template('test.html', food_items=json.dumps(newResults))
 
+@app.route('/autocomplete_ingr/<food_item>', methods=['GET'])
+def autocomplete_ingredients(food_item):
+
+	results = []
+
+	# search = request.args.get('term')
+	
+
+	search = '%' + str(food_item) + '%'
+
+
+	# print search
+	query = """SELECT Food_Item.item_id FROM Food_Item WHERE Food_Item.name LIKE %s"""
+	result = functions.get_result(query, [search])
+
+
+
+	if result is None:
+		return []
+	ingr_result = functions.get_item_ingredients(result[0]["item_id"])
+
+	ingr_names = []
+
+	for i in range(len(ingr_result)):
+		ingr_names.append(ingr_result[i]["name"])
+
+
+	# result = "hello"
+	
+	# conn = mysql.connect()
+	# cursor = conn.cursor()
+	# query = """SELECT Food_Item.name FROM Food_Item WHERE Food_Item.name LIKE %s"""
+	# cursor.execute(query, [search])
+	# data = cursor.fetchall()
+	# print data
+	# cursor.close() 
+	# conn.close()
+
+	# results.append()
+	#return jsonify(result)
+	return json.dumps(ingr_names)
 
 # class SearchForm(Form):
 # 	function_name = TextField('function_name', validators = [Required()])
