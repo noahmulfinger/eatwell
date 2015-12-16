@@ -6,6 +6,8 @@ issue: ingredients not separated by user, so user cannot view ingredients specif
 add ability to select from existing food items
 	fix: search for exact mach food item, show ingredients already selected and add ability to add ingredients
 
+add autocomplete in search field
+
 
 fill everything with lots more data
 	-lots of food items with many different ingredients
@@ -14,18 +16,48 @@ fill everything with lots more data
 	-list of badges
 
 
-
-datetime picker needs to be fixed
-	-use material datetime picker aloke sent
-
-
-
-
-
-
 Stretch goals:
 add edit functionality
 change code to use sqlalchemy
 add model for users to improve security
 modify structure of app
 styling: choose a good color, possibly logo
+
+
+Ingredients to add:
+chicken
+olive oil
+garlic
+ginger
+red pepper
+apple juice
+brown sugar
+ketchup
+vinegar
+water
+soy sauce
+beef
+salt
+rosemary
+black pepper
+flour
+baking soda
+butter
+eggs
+vanilla
+milk
+pasta
+cheese
+bread
+carrots
+celery
+onion
+tortilla
+potatoes
+sausage
+bacon
+whipped cream
+cumin
+margarine
+brocolli
+cauliflower

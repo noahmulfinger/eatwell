@@ -30,8 +30,17 @@
 
     </script>
 
+    <script>
+         $(function() {
+            var list = {{ food_items|safe }};
+
+            $( "#input_food_item" ).autocomplete({
+               autoFocus: true,
+               source: list,
+               delay: 0
+            });
+         });
+      </script>
+
 
 {% endblock %}
-
-
-'%Y-%m-%d %H:%M:%S'

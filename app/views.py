@@ -85,7 +85,15 @@ def new_item():
 		flash(functions.get_flash_message("not_logged_in"))
 		return redirect(url_for('login'))
 
-	return render_template('newitem.html')
+	query = "SELECT Food_Item.name FROM Food_Item"
+	results = functions.get_result(query, [])
+
+	new_results = []
+
+	for r in results:
+		new_results.append(str(r['name']))
+
+	return render_template('newitem.html', food_items=json.dumps(new_results))
 
 @app.route('/additem', methods=['POST'])
 def add_item():
@@ -248,38 +256,17 @@ def logout():
 
 NAMES=["abc","abcd","abcde","abcdef"]
 
-@app.route('/autocomplete', methods=['POST'])
-def autocomplete():
+@app.route('/test')
+def test():
+	query = "SELECT Food_Item.name FROM Food_Item"
+	results = functions.get_result(query, [])
 
-	
+	newResults = []
 
-	results = []
+	for r in results:
+		newResults.append(str(r['name']))
 
-	# search = request.args.get('term')
-	search = request.form['search']
-
-	search = '%' + str(search) + '%'
-	# print search
-	query = """SELECT Food_Item.name FROM Food_Item WHERE Food_Item.name LIKE %s"""
-	result = functions.get_result(query, [search])
-
-	if result is None:
-		print "empty"
-	print result
-	# result = "hello"
-	
-	# conn = mysql.connect()
-	# cursor = conn.cursor()
-	# query = """SELECT Food_Item.name FROM Food_Item WHERE Food_Item.name LIKE %s"""
-	# cursor.execute(query, [search])
-	# data = cursor.fetchall()
-	# print data
-	# cursor.close() 
-	# conn.close()
-
-	# results.append()
-	#return jsonify(result)
-	return json.dumps(result)
+	return render_template('test.html', food_items=json.dumps(newResults))
 
 
 # class SearchForm(Form):

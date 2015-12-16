@@ -4,7 +4,7 @@
       <meta charset="utf-8">
       <title>jQuery UI Autocomplete functionality</title>
       <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
-      <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+      <!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script> -->
       <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
       <!-- Javascript -->
       <script>
@@ -18,7 +18,9 @@
             var list = {{ food_items|safe }};
 
             $( "#automplete-1" ).autocomplete({
-               source: list
+               autoFocus: true,
+               source: list,
+               delay: 0
             });
          });
       </script>
