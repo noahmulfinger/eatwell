@@ -79,11 +79,14 @@ def delete_symptom():
 	return redirect(url_for('index'))
 
 
-@app.route('/newitem')
+@app.route('/newitem', methods=['POST'])
 def new_item():
 	if not session.get(user_id):
 		flash(functions.get_flash_message("not_logged_in"))
 		return redirect(url_for('login'))
+
+
+	back_url = request.form['back_url']
 
 	query = "SELECT Food_Item.name FROM Food_Item"
 	results = functions.get_result(query, [])
@@ -93,7 +96,7 @@ def new_item():
 	for r in results:
 		new_results.append(str(r['name']))
 
-	return render_template('newitem.html', food_items=json.dumps(new_results))
+	return render_template('newitem.html', food_items=json.dumps(new_results), back_url=back_url)
 
 @app.route('/additem', methods=['POST'])
 def add_item():
@@ -104,7 +107,7 @@ def add_item():
 	input_name = request.form['input_food_item']
 	input_ingr = request.form['input_ingr']
 	datetime = request.form['datetime']
-	# print time.strftime('%Y-%m-%d %H:%M:%S', datetime)
+	back_url = request.form['back_url']
 
 	if input_name and input_ingr and datetime:
 
@@ -112,21 +115,55 @@ def add_item():
 
 		functions.add_food_item(user_id, input_name, input_ingr, datetime)
 		flash(functions.get_flash_message("add_item"))
-		return redirect(url_for('index'))
+		return redirect(url_for(back_url))
 
 	flash(functions.get_flash_message("empty_fields"))
 	return redirect(url_for('new_item'))
 
 
-@app.route('/newsymptom')
+@app.route('/fooditems', methods=['GET'])
+def show_food_items():
+	if not session.get(user_id):
+		flash(functions.get_flash_message("not_logged_in"))
+		return redirect(url_for('login'))
+
+	order = 'time'
+
+	if 'sortBy' in request.args:
+		order = request.args['sortBy']
+
+	user_food_items = functions.get_items_ordered(user_id, order)
+
+	return render_template('fooditems.html', user_food_items=user_food_items)
+
+
+@app.route('/symptoms', methods=['GET'])
+def show_symptoms():
+	if not session.get(user_id):
+		flash(functions.get_flash_message("not_logged_in"))
+		return redirect(url_for('login'))
+
+	order = 'time'
+
+	if 'sortBy' in request.args:
+		order = request.args['sortBy']
+
+	user_symptoms = functions.get_symptoms_ordered(user_id, order)
+
+	return render_template('symptoms.html', user_symptoms=user_symptoms)
+
+
+@app.route('/newsymptom', methods=['POST'])
 def new_symptom():
 	if not session.get(user_id):
 		flash(functions.get_flash_message("not_logged_in"))
 		return redirect(url_for('login'))
 
+	back_url = request.form['back_url']
+
 	symptoms = functions.get_all_symptoms()
 		
-	return render_template('newsymptom.html', symptoms=symptoms)
+	return render_template('newsymptom.html', symptoms=symptoms, back_url=back_url)
 
 @app.route('/addsymptom', methods=['POST'])
 def add_symptom():
@@ -137,6 +174,7 @@ def add_symptom():
 	input_symptom = request.form['input_symptom']
 	input_rating = request.form['input_rating']
 	datetime = request.form['datetime']
+	back_url = request.form['back_url']
 
 	if (input_symptom and input_rating and datetime and 
 		input_symptom != 'Select Symptom' and input_rating != 'Select Rating'):
@@ -145,7 +183,7 @@ def add_symptom():
 
 		functions.add_symptom(user_id, input_symptom, input_rating, datetime)
 		flash(functions.get_flash_message("add_symptom"))
-		return redirect(url_for('index'))
+		return redirect(url_for(back_url))
 
 	flash(functions.get_flash_message("empty_fields"))
 	return redirect(url_for('new_symptom'))
@@ -253,8 +291,6 @@ def logout():
 		flash(functions.get_flash_message("logout"))
 	return redirect(url_for('login'))
 
-
-NAMES=["abc","abcd","abcde","abcdef"]
 
 @app.route('/test')
 def test():
