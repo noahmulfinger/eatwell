@@ -7,6 +7,20 @@ INSERT INTO User VALUES (0,'Shinjini','sjvnunna@gmail.com','pbkdf2:sha1:1000$XWp
 -- Insert food items
 INSERT INTO Food_Item VALUES (0, 'Hamburger');
 INSERT INTO Food_Item VALUES (0, 'Chicken Pasta');
+INSERT INTO Food_Item VALUES (0, 'Apple Pie');
+INSERT INTO Food_Item VALUES (0, 'French Toast');
+INSERT INTO Food_Item VALUES (0, 'Chicken Piccata');
+INSERT INTO Food_Item VALUES (0, 'Chicken Tacos');
+INSERT INTO Food_Item VALUES (0, 'Chicken Pasta');
+INSERT INTO Food_Item VALUES (0, 'Roast Beef');
+INSERT INTO Food_Item VALUES (0, 'Lasagna');
+INSERT INTO Food_Item VALUES (0, 'Quesadillas');
+INSERT INTO Food_Item VALUES (0, 'Chocolate Chip Cookie');
+INSERT INTO Food_Item VALUES (0, 'Cheesecake');
+INSERT INTO Food_Item VALUES (0, 'Eggs Benedict');
+INSERT INTO Food_Item VALUES (0, 'Chocolate Walnut Fudge');
+INSERT INTO Food_Item VALUES (0, 'Tilapia');
+INSERT INTO Food_Item VALUES (0, 'Pork Chops');
 
 -- Insert into ingredients
 INSERT INTO Ingredient VALUES (0, 'Lettuce');
@@ -25,6 +39,16 @@ INSERT INTO Ingredient VALUES (0, 'Feta Cheese');
 INSERT INTO Ingredient VALUES (0, 'Parsley');
 INSERT INTO Ingredient VALUES (0, 'Salt');
 INSERT INTO Ingredient VALUES (0, 'Pepper');
+INSERT INTO Ingredient VALUES (0, 'Egg');
+INSERT INTO Ingredient VALUES (0, 'Cheese');
+INSERT INTO Ingredient VALUES (0, 'Milk');
+INSERT INTO Ingredient VALUES (0, 'Apple');
+INSERT INTO Ingredient VALUES (0, 'Strawberries');
+INSERT INTO Ingredient VALUES (0, 'Tomatoes');
+INSERT INTO Ingredient VALUES (0, 'Chocolate');
+INSERT INTO Ingredient VALUES (0, 'Wine');
+INSERT INTO Ingredient VALUES (0, 'Bananas');
+INSERT INTO Ingredient VALUES (0, 'Avacado');
 
 -- Insert into Symptoms
 INSERT INTO Symptom VALUES (0, 'Headache');
