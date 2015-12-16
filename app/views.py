@@ -22,7 +22,9 @@ def index():
 		return redirect(url_for('login'))
 
 	user_meals = functions.get_food_items(user_id)
+	user_meals.reverse()
 	user_symptoms = functions.get_symptoms(user_id)
+	user_symptoms.reverse()
 
 	return render_template('index.html', user_meals=user_meals, user_symptoms=user_symptoms)
 
