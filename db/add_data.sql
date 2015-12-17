@@ -58,7 +58,7 @@ INSERT INTO Symptom VALUES (0, 'Migraine');
 INSERT INTO Symptom VALUES (0, 'Cough');
 INSERT INTO Symptom VALUES (0, 'Stomach ache');
 INSERT INTO Symptom VALUES (0, 'Hives');
-INSERT INTO Symptom VALUES (0, 'Irritable bowel');
+INSERT INTO Symptom VALUES (0, 'Irritable Bowel');
 
 -- Insert into Badges
 INSERT INTO Badge VALUES (0, 'Gluten');
