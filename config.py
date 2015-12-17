@@ -1,6 +1,6 @@
 # MySQL configurations
-MYSQL_DATABASE_USER = 'root'
+MYSQL_DATABASE_USER = 'nmulfinger'
 MYSQL_DATABASE_PASSWORD = 'mysql'
-MYSQL_DATABASE_DB = 'eatwell'
-MYSQL_DATABASE_HOST = 'localhost'
+MYSQL_DATABASE_DB = 'nmulfinger$eatwell'
+MYSQL_DATABASE_HOST = 'nmulfinger.mysql.pythonanywhere-services.com'
 
