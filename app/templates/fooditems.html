@@ -12,6 +12,13 @@
             </tr>
         </table>
 
+        <form method=post action="{{ url_for('searchbyfood') }}">
+        <div class="form-group">
+          <input type="name" name="search" id="search" class="form-control" placeholder="Search" required autofocus>
+            <button class="btn btn-raised  btn-primary" type="submit" value="food">Search By Food</button>
+        </div>
+        </form>
+
         <div>
             <h3>Food History</h3>
               <table class="table table-striped table-hover">
