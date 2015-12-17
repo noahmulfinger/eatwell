@@ -8,10 +8,13 @@ import functions
 
 # Not the best way to do this, look in to Flask-Login
 global user_id
-user_id = None
+user_id = 1
 
 global user_name
 user_name = None
+
+global symptom_search
+symptom_search = None
 
 @app.route('/')
 @app.route('/index')
@@ -21,16 +24,14 @@ def index():
 		flash(functions.get_flash_message("not_logged_in"))
 		return redirect(url_for('login'))
 
-	user_meals = functions.get_food_items_index(user_id)
-	user_meals.reverse()
-	user_symptoms = functions.get_symptoms_index(user_id)
-	user_symptoms.reverse()
+	user_meals = functions.get_food_items(user_id)
+	user_symptoms = functions.get_symptoms(user_id)
 
 	return render_template('index.html', user_meals=user_meals, user_symptoms=user_symptoms, isIndex = True)
 
 
-@app.route('/search', methods=['POST'])
-def search():
+@app.route('/searchbyfood', methods=['POST'])
+def searchbyfood():
 	if not session.get(user_id):
 		flash(functions.get_flash_message("not_logged_in"))
 		return redirect(url_for('login'))
@@ -40,6 +41,19 @@ def search():
 
 	return render_template('index.html', user_meals = found_items, user_symptoms = [], isIndex = False)
 
+@app.route('/searchbysymptom', methods=['POST'])
+def searchbysymptom():
+	if not session.get(user_id):
+		flash(functions.get_flash_message("not_logged_in"))
+		return redirect(url_for('login'))
+
+	global symptom_search
+	symptom_search = request.form['search']
+
+	order = "description"
+	sorted_search_symptoms = functions.get_found_symptoms_ordered(user_id, order, symptom_search)
+
+	return render_template('found_symptoms.html', user_symptoms=sorted_search_symptoms)
 
 
 
@@ -171,6 +185,21 @@ def show_symptoms():
 	user_symptoms = functions.get_symptoms_ordered(user_id, order)
 
 	return render_template('symptoms.html', user_symptoms=user_symptoms)
+
+@app.route('/order_found_symptoms', methods=['GET'])
+def order_found_symptoms():
+	if not session.get(user_id):
+		flash(functions.get_flash_message("not_logged_in"))
+		return redirect(url_for('login'))
+
+	order = 'time'
+
+	if 'sortBy' in request.args:
+		order = request.args['sortBy']
+
+	sorted_search_symptoms = functions.get_found_symptoms_ordered(user_id, order, symptom_search)
+
+	return render_template('found_symptoms.html', user_symptoms=sorted_search_symptoms)
 
 
 @app.route('/newsymptom', methods=['POST'])

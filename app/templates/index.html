@@ -1,13 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 
-        <form method=post action="{{ url_for('search') }}">
-        <div class="form-group">
-          <input type="name" name="search" id="search" class="form-control" placeholder="Search" required autofocus>
-            <button class="btn btn-raised  btn-primary" type="submit">Search for Food Items</button>
-        </div>
+
         
-        </form>
+
         <table class="table">
             <tr align="center">
                 <td>
@@ -24,6 +20,17 @@
                 </td>
             </tr>
         </table>
+
+        {% if isIndex %}
+        {% else %}
+        <form method=post action="{{ url_for('searchbyfood') }}">
+        <div class="form-group">
+          <input type="name" name="search" id="search" class="form-control" placeholder="Search" required autofocus>
+            <button class="btn btn-raised  btn-primary" type="submit" value="food">Search By Food</button>
+        </div>
+        </form>
+        {% endif %}
+
 
         <div>
             <!-- <h3>Recent Food History</h3> 
