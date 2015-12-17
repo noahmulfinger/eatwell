@@ -29,6 +29,19 @@ def index():
 
 	return render_template('index.html', user_meals=user_meals, user_symptoms=user_symptoms, isIndex = True)
 
+@app.route('/searchbydate', methods=['POST'])
+def searchbydate():
+	if not session.get(user_id):
+		flash(functions.get_flash_message("not_logged_in"))
+		return redirect(url_for('login'))
+
+	date = request.form['date']
+	date_items = functions.search_food_by_date(user_id, date)
+	date_symptoms = functions.search_symptoms_by_date(user_id,date)
+
+	return render_template('date.html', user_meals = date_items, user_symptoms=date_symptoms)
+
+
 
 @app.route('/searchbyfood', methods=['POST'])
 def searchbyfood():

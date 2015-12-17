@@ -8,6 +8,22 @@ def search_food_by_name(item_name, user_id):
 						AND Food_Item.item_id = Eats.item_id \
 						AND Eats.user_id = %s", [item_name,user_id])
 
+def search_food_by_date(user_id, date):
+	end_datetime = date + " 23:59:59"
+	return get_result("SELECT Food_Item.*, Eats.time \
+						FROM Food_Item, Eats \
+						WHERE Food_Item.item_id = Eats.item_id \
+						AND Eats.user_id = %s \
+						AND Eats.time BETWEEN %s AND %s ", [user_id, date, end_datetime])
+
+def search_symptoms_by_date(user_id, date):
+	end_datetime = date + " 23:59:59"
+	return get_result("SELECT Symptom.*, Has.time \
+						FROM Symptom, Has \
+						WHERE Symptom.symptom_id = Has.symptom_id \
+						AND Has.user_id = %s \
+						AND Has.time BETWEEN %s AND %s ", [user_id, date, end_datetime])		
+
 
 def get_food_items(user_id):
 	return get_result("SELECT Food_Item.*, Eats.time \
