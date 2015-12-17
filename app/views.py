@@ -143,12 +143,13 @@ def add_item():
 		return redirect(url_for('login'))
 
 	input_name = request.form['input_food_item']
-	input_ingr = request.form.getlist('input_ingr')
+	input_ingr = request.form.getlist('input_ingr[]')
+
+	print input_ingr
 
 	fItems = []
 	for i in input_ingr:
 		fItems.append(str(i))
-	
 
 	datetime = request.form['datetime']
 	back_url = request.form['back_url']
