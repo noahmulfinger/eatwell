@@ -97,7 +97,27 @@ INSERT INTO Food_Item VALUES (0, 'Cheesecake');
 INSERT INTO Food_Item VALUES (0, 'Eggs Benedict');
 INSERT INTO Food_Item VALUES (0, 'Chocolate Walnut Fudge');
 INSERT INTO Food_Item VALUES (0, 'Tilapia');
+INSERT INTO Food_Item VALUES (0, 'Ham Sandwich');
+INSERT INTO Food_Item VALUES (0, 'Donut');
+INSERT INTO Food_Item VALUES (0, 'Chili');
+INSERT INTO Food_Item VALUES (0, 'Graham Cracker');
+INSERT INTO Food_Item VALUES (0, 'Caesar Salad');
+INSERT INTO Food_Item VALUES (0, 'Yellow Cake');
+INSERT INTO Food_Item VALUES (0, 'Pancakes');
+INSERT INTO Food_Item VALUES (0, 'Coleslaw');
+INSERT INTO Food_Item VALUES (0, 'Clam Chowder');
+INSERT INTO Food_Item VALUES (0, 'Green Bean Casserole');
+INSERT INTO Food_Item VALUES (0, 'Crab Cake');
+INSERT INTO Food_Item VALUES (0, 'Corn on the Cob');
+INSERT INTO Food_Item VALUES (0, 'Baked Potato');
+INSERT INTO Food_Item VALUES (0, 'French Fries');
+INSERT INTO Food_Item VALUES (0, 'Key Lime Pie');
+INSERT INTO Food_Item VALUES (0, 'Fajitas');
+INSERT INTO Food_Item VALUES (0, 'Sushi');
+INSERT INTO Food_Item VALUES (0, 'Cioppino');
+INSERT INTO Food_Item VALUES (0, 'Popcorn');
 INSERT INTO Food_Item VALUES (0, 'Pork Chops');
+INSERT INTO Food_Item VALUES (0, 'Nachos');
 
 -- Insert into ingredients
 INSERT INTO Ingredient VALUES (0, 'Lettuce');
@@ -153,7 +173,17 @@ INSERT INTO Ingredient VALUES (0, 'Cumin');
 INSERT INTO Ingredient VALUES (0, 'Margarine');
 INSERT INTO Ingredient VALUES (0, 'Broccoli');
 INSERT INTO Ingredient VALUES (0, 'Cauliflower');
-
+INSERT INTO Ingredient VALUES (0, 'Beans');
+INSERT INTO Ingredient VALUES (0, 'Corn');
+INSERT INTO Ingredient VALUES (0, 'Breadcrumbs');
+INSERT INTO Ingredient VALUES (0, 'Cocoa Powder');
+INSERT INTO Ingredient VALUES (0, 'Paprika');
+INSERT INTO Ingredient VALUES (0, 'Maple Syrup');
+INSERT INTO Ingredient VALUES (0, 'Peanut Butter');
+INSERT INTO Ingredient VALUES (0, 'Jelly');
+INSERT INTO Ingredient VALUES (0, 'Sugar');
+INSERT INTO Ingredient VALUES (0, 'Honey');
+INSERT INTO Ingredient VALUES (0, 'Mushroom');
 
 
 -- Insert into Symptoms
@@ -172,7 +202,6 @@ INSERT INTO Badge VALUES (0, 'Lactose');
 INSERT INTO Badge VALUES (0, 'Fructose');
 INSERT INTO Badge VALUES (0, 'Salicylates');
 INSERT INTO Badge VALUES (0, 'Amines');
--- Insert into Eats
 
 -- Insert into Eats
 INSERT INTO Eats VALUES (1, 1, '2015-11-15 18:46:29');
@@ -185,22 +214,313 @@ INSERT INTO Has VALUES (2, 1, 'Moderate', '2015-11-16 19:46:29');
 INSERT INTO Has VALUES (2, 2, 'Severe', '2015-11-17 19:46:29');
 
 -- Insert into Contains
-INSERT INTO Contains VALUES (1, 1);
-INSERT INTO Contains VALUES (2, 1);
-INSERT INTO Contains VALUES (3, 1);
-INSERT INTO Contains VALUES (4, 1);
-INSERT INTO Contains VALUES (5, 1);
-INSERT INTO Contains VALUES (6, 1);
-INSERT INTO Contains VALUES (7, 1);
-INSERT INTO Contains VALUES (8, 1);
-INSERT INTO Contains VALUES (9, 2);
-INSERT INTO Contains VALUES (10, 2);
-INSERT INTO Contains VALUES (11, 2);
-INSERT INTO Contains VALUES (12, 2);
-INSERT INTO Contains VALUES (13, 2);
-INSERT INTO Contains VALUES (14, 2);
-INSERT INTO Contains VALUES (15, 2);
-INSERT INTO Contains VALUES (16, 2);
+
+INSERT INTO Contains VALUES (43,1);
+INSERT INTO Contains VALUES (20,1);
+INSERT INTO Contains VALUES (57,1);
+INSERT INTO Contains VALUES (24,1);
+INSERT INTO Contains VALUES (13,1);
+
+INSERT INTO Contains VALUES (,2);
+INSERT INTO Contains VALUES (,2);
+INSERT INTO Contains VALUES (,2);
+INSERT INTO Contains VALUES (,2);
+INSERT INTO Contains VALUES (,2);
+40
+ 8
+11
+ 2
+ 9
+
+INSERT INTO Contains VALUES (,3);
+INSERT INTO Contains VALUES (,3);
+INSERT INTO Contains VALUES (,3);
+INSERT INTO Contains VALUES (,3);
+INSERT INTO Contains VALUES (,3);
+55
+56
+ 3
+26
+25
+
+INSERT INTO Contains VALUES (,4);
+INSERT INTO Contains VALUES (,4);
+INSERT INTO Contains VALUES (,4);
+INSERT INTO Contains VALUES (,4);
+INSERT INTO Contains VALUES (,4);
+29
+63
+31
+46
+36
+
+INSERT INTO Contains VALUES (,5);
+INSERT INTO Contains VALUES (,5);
+INSERT INTO Contains VALUES (,5);
+INSERT INTO Contains VALUES (,5);
+INSERT INTO Contains VALUES (,5);
+37
+61
+58
+45
+30
+
+INSERT INTO Contains VALUES (,8);
+INSERT INTO Contains VALUES (,8);
+INSERT INTO Contains VALUES (,8);
+INSERT INTO Contains VALUES (,8);
+INSERT INTO Contains VALUES (,8);
+15
+ 1
+60
+28
+22
+
+INSERT INTO Contains VALUES (,9);
+INSERT INTO Contains VALUES (,9);
+INSERT INTO Contains VALUES (,9);
+INSERT INTO Contains VALUES (,9);
+INSERT INTO Contains VALUES (,9);
+21
+51
+23
+59
+64
+
+INSERT INTO Contains VALUES (,10);
+INSERT INTO Contains VALUES (,10);
+INSERT INTO Contains VALUES (,10);
+INSERT INTO Contains VALUES (,10);
+INSERT INTO Contains VALUES (,10);
+54
+53
+50
+18
+33
+
+INSERT INTO Contains VALUES (,11);
+INSERT INTO Contains VALUES (,11);
+INSERT INTO Contains VALUES (,11);
+INSERT INTO Contains VALUES (,11);
+INSERT INTO Contains VALUES (,11);
+6
+47
+10
+35
+16
+
+INSERT INTO Contains VALUES (,12);
+INSERT INTO Contains VALUES (,12);
+INSERT INTO Contains VALUES (,12);
+INSERT INTO Contains VALUES (,12);
+INSERT INTO Contains VALUES (,12);
+32
+19
+38
+ 4
+48
+
+INSERT INTO Contains VALUES (,13);
+INSERT INTO Contains VALUES (,13);
+INSERT INTO Contains VALUES (,13);
+INSERT INTO Contains VALUES (,13);
+INSERT INTO Contains VALUES (,13);
+12
+34
+52
+39
+49
+
+INSERT INTO Contains VALUES (,14);
+INSERT INTO Contains VALUES (,14);
+INSERT INTO Contains VALUES (,14);
+INSERT INTO Contains VALUES (,14);
+INSERT INTO Contains VALUES (,14);
+14
+27
+17
+ 7
+41
+
+INSERT INTO Contains VALUES (,15);
+INSERT INTO Contains VALUES (,15);
+INSERT INTO Contains VALUES (,15);
+INSERT INTO Contains VALUES (,15);
+INSERT INTO Contains VALUES (,15);
+ 5
+62
+59
+30
+22
+
+INSERT INTO Contains VALUES (,15);
+INSERT INTO Contains VALUES (,15);
+INSERT INTO Contains VALUES (,15);
+INSERT INTO Contains VALUES (,15);
+INSERT INTO Contains VALUES (,15);
+36
+52
+17
+39
+31
+
+INSERT INTO Contains VALUES (,15);
+INSERT INTO Contains VALUES (,15);
+INSERT INTO Contains VALUES (,15);
+INSERT INTO Contains VALUES (,15);
+INSERT INTO Contains VALUES (,15);
+56
+26
+28
+12
+ 2
+
+INSERT INTO Contains VALUES (,16);
+INSERT INTO Contains VALUES (,16);
+INSERT INTO Contains VALUES (,16);
+INSERT INTO Contains VALUES (,16);
+INSERT INTO Contains VALUES (,16);
+35
+61
+19
+ 1
+54
+
+INSERT INTO Contains VALUES (,17);
+INSERT INTO Contains VALUES (,17);
+INSERT INTO Contains VALUES (,17);
+INSERT INTO Contains VALUES (,17);
+INSERT INTO Contains VALUES (,17);
+
+INSERT INTO Contains VALUES (,17);
+INSERT INTO Contains VALUES (,17);
+INSERT INTO Contains VALUES (,17);
+INSERT INTO Contains VALUES (,17);
+INSERT INTO Contains VALUES (,17);
+
+INSERT INTO Contains VALUES (,17);
+INSERT INTO Contains VALUES (,17);
+INSERT INTO Contains VALUES (,17);
+INSERT INTO Contains VALUES (,17);
+INSERT INTO Contains VALUES (,17);
+
+INSERT INTO Contains VALUES (,18);
+INSERT INTO Contains VALUES (,18);
+INSERT INTO Contains VALUES (,18);
+INSERT INTO Contains VALUES (,18);
+INSERT INTO Contains VALUES (,18);
+
+INSERT INTO Contains VALUES (,19);
+INSERT INTO Contains VALUES (,19);
+INSERT INTO Contains VALUES (,19);
+INSERT INTO Contains VALUES (,19);
+INSERT INTO Contains VALUES (,19);
+
+INSERT INTO Contains VALUES (,20);
+INSERT INTO Contains VALUES (,20);
+INSERT INTO Contains VALUES (,20);
+INSERT INTO Contains VALUES (,20);
+INSERT INTO Contains VALUES (,20);
+
+INSERT INTO Contains VALUES (,21);
+INSERT INTO Contains VALUES (,21);
+INSERT INTO Contains VALUES (,21);
+INSERT INTO Contains VALUES (,21);
+INSERT INTO Contains VALUES (,21);
+
+INSERT INTO Contains VALUES (,22);
+INSERT INTO Contains VALUES (,22);
+INSERT INTO Contains VALUES (,22);
+INSERT INTO Contains VALUES (,22);
+INSERT INTO Contains VALUES (,22);
+
+INSERT INTO Contains VALUES (,23);
+INSERT INTO Contains VALUES (,23);
+INSERT INTO Contains VALUES (,23);
+INSERT INTO Contains VALUES (,23);
+INSERT INTO Contains VALUES (,23);
+
+INSERT INTO Contains VALUES (,24);
+INSERT INTO Contains VALUES (,24);
+INSERT INTO Contains VALUES (,24);
+INSERT INTO Contains VALUES (,24);
+INSERT INTO Contains VALUES (,24);
+
+INSERT INTO Contains VALUES (,25);
+INSERT INTO Contains VALUES (,25);
+INSERT INTO Contains VALUES (,25);
+INSERT INTO Contains VALUES (,25);
+INSERT INTO Contains VALUES (,25);
+
+INSERT INTO Contains VALUES (,26);
+INSERT INTO Contains VALUES (,26);
+INSERT INTO Contains VALUES (,26);
+INSERT INTO Contains VALUES (,26);
+INSERT INTO Contains VALUES (,26);
+
+INSERT INTO Contains VALUES (,27);
+INSERT INTO Contains VALUES (,27);
+INSERT INTO Contains VALUES (,27);
+INSERT INTO Contains VALUES (,27);
+INSERT INTO Contains VALUES (,27);
+
+INSERT INTO Contains VALUES (,28);
+INSERT INTO Contains VALUES (,28);
+INSERT INTO Contains VALUES (,28);
+INSERT INTO Contains VALUES (,28);
+INSERT INTO Contains VALUES (,28);
+
+INSERT INTO Contains VALUES (,29);
+INSERT INTO Contains VALUES (,29);
+INSERT INTO Contains VALUES (,29);
+INSERT INTO Contains VALUES (,29);
+INSERT INTO Contains VALUES (,29);
+
+INSERT INTO Contains VALUES (,30);
+INSERT INTO Contains VALUES (,30);
+INSERT INTO Contains VALUES (,30);
+INSERT INTO Contains VALUES (,30);
+INSERT INTO Contains VALUES (,30);
+
+INSERT INTO Contains VALUES (,31);
+INSERT INTO Contains VALUES (,31);
+INSERT INTO Contains VALUES (,31);
+INSERT INTO Contains VALUES (,31);
+INSERT INTO Contains VALUES (,31);
+INSERT INTO Contains VALUES (,31);
+
+INSERT INTO Contains VALUES (,32);
+INSERT INTO Contains VALUES (,32);
+INSERT INTO Contains VALUES (,32);
+INSERT INTO Contains VALUES (,32);
+INSERT INTO Contains VALUES (,32);
+INSERT INTO Contains VALUES (,32);
+
+INSERT INTO Contains VALUES (,33);
+INSERT INTO Contains VALUES (,33);
+INSERT INTO Contains VALUES (,33);
+INSERT INTO Contains VALUES (,33);
+INSERT INTO Contains VALUES (,33);
+INSERT INTO Contains VALUES (,33);
+
+INSERT INTO Contains VALUES (,34);
+INSERT INTO Contains VALUES (,34);
+INSERT INTO Contains VALUES (,34);
+INSERT INTO Contains VALUES (,34);
+INSERT INTO Contains VALUES (,34);
+
+INSERT INTO Contains VALUES (,35);
+INSERT INTO Contains VALUES (,35);
+INSERT INTO Contains VALUES (,35);
+INSERT INTO Contains VALUES (,35);
+INSERT INTO Contains VALUES (,35);
+
+INSERT INTO Contains VALUES (,36);
+INSERT INTO Contains VALUES (,36);
+INSERT INTO Contains VALUES (,36);
+INSERT INTO Contains VALUES (,36);
+INSERT INTO Contains VALUES (,36);
+
 
 -- Insert into Tagged_With
 INSERT INTO Tagged_With VALUES (2, 1);
