@@ -2,9 +2,10 @@ from flask import Markup
 from app import mysql
 
 def search_food_by_name(item_name, user_id):
+	item_name = '%' + item_name + '%'
 	return get_result("SELECT Food_Item.*, Eats.time \
 						FROM Food_Item, Eats \
-						WHERE Food_Item.name = %s \
+						WHERE Food_Item.name LIKE %s \
 						AND Food_Item.item_id = Eats.item_id \
 						AND Eats.user_id = %s", [item_name,user_id])
 
@@ -81,26 +82,27 @@ def get_symptoms_ordered(user_id, order):
 						ORDER BY Has.rating", [user_id])
 
 def get_found_symptoms_ordered(user_id, order, description):
+	description = '%' + description + '%'
 	if order == 'description':
 		return get_result("SELECT Symptom.*, Has.rating, Has.time \
 						FROM Symptom, Has \
 						WHERE Symptom.symptom_id = Has.symptom_id \
 						AND Has.user_id = %s \
-						AND Symptom.description = %s \
+						AND Symptom.description LIKE %s \
 						ORDER BY Symptom.description", [user_id, description])
 	elif order == 'time':
 		return get_result("SELECT Symptom.*, Has.rating, Has.time \
 						FROM Symptom, Has \
 						WHERE Symptom.symptom_id = Has.symptom_id \
 						AND Has.user_id = %s \
-						AND Symptom.description = %s \
+						AND Symptom.description LIKE %s \
 						ORDER BY Has.time DESC", [user_id, description])
 	elif order == 'rating':
 		return get_result("SELECT Symptom.*, Has.rating, Has.time \
 						FROM Symptom, Has \
 						WHERE Symptom.symptom_id = Has.symptom_id \
 						AND Has.user_id = %s \
-						AND Symptom.description = %s \
+						AND Symptom.description LIKE %s \
 						ORDER BY Has.rating", [user_id, description])
 
 
