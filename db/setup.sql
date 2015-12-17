@@ -80,6 +80,7 @@ CREATE TABLE Caused_By(
 INSERT INTO User VALUES (0,'Noah','noah.mulfinger@gmail.com','pbkdf2:sha1:1000$iwazD2Qu$3f67f37871586b05d666bb47060a26349097c009');
 INSERT INTO User VALUES (0,'Shinjini','sjvnunna@gmail.com','pbkdf2:sha1:1000$XWpiv2I1$aa4328aa681b396bd4180dd0893d152742d1a65c');
 
+
 -- Insert food items
 INSERT INTO Food_Item VALUES (0, 'Hamburger');
 INSERT INTO Food_Item VALUES (0, 'Chicken Pasta');
@@ -124,7 +125,35 @@ INSERT INTO Ingredient VALUES (0, 'Tomatoes');
 INSERT INTO Ingredient VALUES (0, 'Chocolate');
 INSERT INTO Ingredient VALUES (0, 'Wine');
 INSERT INTO Ingredient VALUES (0, 'Bananas');
-INSERT INTO Ingredient VALUES (0, 'Avacado');
+INSERT INTO Ingredient VALUES (0, 'Avocado');
+INSERT INTO Ingredient VALUES (0, 'Ginger');
+INSERT INTO Ingredient VALUES (0, 'Red Pepper');
+INSERT INTO Ingredient VALUES (0, 'Apple Juice');
+INSERT INTO Ingredient VALUES (0, 'Brown Sugar');
+INSERT INTO Ingredient VALUES (0, 'Ketchup');
+INSERT INTO Ingredient VALUES (0, 'Vinegar');
+INSERT INTO Ingredient VALUES (0, 'Water');
+INSERT INTO Ingredient VALUES (0, 'Soy Sauce');
+INSERT INTO Ingredient VALUES (0, 'Rosemary');
+INSERT INTO Ingredient VALUES (0, 'Black Pepper');
+INSERT INTO Ingredient VALUES (0, 'Flour');
+INSERT INTO Ingredient VALUES (0, 'Baking Soda');
+INSERT INTO Ingredient VALUES (0, 'Butter');
+INSERT INTO Ingredient VALUES (0, 'Vanilla');
+INSERT INTO Ingredient VALUES (0, 'Pasta');
+INSERT INTO Ingredient VALUES (0, 'Bread');
+INSERT INTO Ingredient VALUES (0, 'Carrots');
+INSERT INTO Ingredient VALUES (0, 'Celery');
+INSERT INTO Ingredient VALUES (0, 'Tortilla');
+INSERT INTO Ingredient VALUES (0, 'Potatoes');
+INSERT INTO Ingredient VALUES (0, 'Sausage');
+INSERT INTO Ingredient VALUES (0, 'Bacon');
+INSERT INTO Ingredient VALUES (0, 'Whipped Cream');
+INSERT INTO Ingredient VALUES (0, 'Cumin');
+INSERT INTO Ingredient VALUES (0, 'Margarine');
+INSERT INTO Ingredient VALUES (0, 'Broccoli');
+INSERT INTO Ingredient VALUES (0, 'Cauliflower');
+
 
 
 -- Insert into Symptoms

@@ -10,7 +10,7 @@
           <input type="name" name="input_food_item" id="input_food_item" class="form-control" placeholder="Food Item" required autofocus>
         </div>
         <div class="form-group">
-          <select multiple= "multiple" name="input_ingr[]" id="input_ingr" class="form-control" placeholder=" Ingredients" required>  
+          <select multiple= "multiple" name="input_ingr" id="input_ingr" class="form-control" placeholder=" Ingredients" required>  
             </select>
         </div>
         <div class="form-group">
@@ -61,16 +61,16 @@
     </script>
 
     <script>
-         $(function() {
-            var list = {{ food_items|safe }};
+      //    $(function() {
+      //       var list = {{ food_items|safe }};
 
-            $( "#input_food_item" ).autocomplete({
-               autoFocus: true,
-               source: list,
-               delay: 0
-            });
-         });
-      </script>
+      //       $( "#input_food_item" ).autocomplete({
+      //          autoFocus: true,
+      //          source: list,
+      //          delay: 0
+      //       });
+      //    });
+      // </script>
 
 
 {% endblock %}

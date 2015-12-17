@@ -1,8 +1,21 @@
 from flask import Markup
 from app import mysql
 
+def search_food_by_name(item_name, user_id):
+	return get_result("SELECT Food_Item.*, Eats.time \
+						FROM Food_Item, Eats \
+						WHERE Food_Item.name = %s \
+						AND Food_Item.item_id = Eats.item_id \
+						AND Eats.user_id = %s", [item_name,user_id])
 
 def get_food_items(user_id):
+	return get_result("SELECT Food_Item.*, Eats.time \
+						FROM Food_Item, Eats \
+						WHERE Food_Item.item_id = Eats.item_id \
+						AND Eats.user_id = %s \
+						ORDER BY Eats.time DESC", [user_id])
+
+def get_food_items_index(user_id):
 	return get_result("SELECT Food_Item.*, Eats.time \
 						FROM Food_Item, Eats \
 						WHERE Food_Item.item_id = Eats.item_id \
@@ -50,6 +63,14 @@ def get_symptoms_ordered(user_id, order):
 						AND Has.user_id = %s \
 						ORDER BY Has.rating", [user_id])
 
+def get_symptoms_index(user_id):
+	return get_result("SELECT Symptom.*, Has.rating, Has.time \
+						FROM Symptom, Has \
+						WHERE Symptom.symptom_id = Has.symptom_id \
+						AND Has.user_id = %s\
+						ORDER BY Has.time \
+						LIMIT 5", [user_id])
+
 def get_food_item(item_id):
 	return get_result("SELECT Food_Item.* \
 						FROM Food_Item \
@@ -91,14 +112,15 @@ def add_food_item(user_id, item_name, ingr_list, time):
 	cursor = conn.cursor()
 
 	# Insert into Food_Item, if necessary
-	query = "SELECT Food_Item.item_id FROM Food_Item WHERE Food_Item.name = %s"
+	# query = "SELECT MAX (Food_Item.item_id) FROM Food_Item WHERE Food_Item.name = %s"
+	query = "SELECT LAST_INSERT_ID()"
 	statement = "INSERT INTO Food_Item VALUES (0, %s)"
-	cursor.execute(query, [item_name])
+	# cursor.execute(query, [item_name])
+	#data = cursor.fetchone()
+	# if data is None:
+	cursor.execute(statement, [item_name])
+	cursor.execute(query)
 	data = cursor.fetchone()
-	if data is None:
-		cursor.execute(statement, [item_name])
-		cursor.execute(query, [item_name])
-		data = cursor.fetchone()
 	item_id = int(data[0])
 
 
@@ -107,12 +129,12 @@ def add_food_item(user_id, item_name, ingr_list, time):
 	statement = "INSERT INTO Eats VALUES (%s, %s, %s)"
 	cursor.execute(query, [user_id, item_id, time])
 	data = cursor.fetchone()
-	if data is None:
-		cursor.execute(statement, [user_id, item_id, time])
+	#if data is None:
+	cursor.execute(statement, [user_id, item_id, time])
 		
 	# Insert into Ingredients, if necessary
 	
-	ingr_list = map(str.strip, str(ingr_list).split(','))
+	# ingr_list = map(str.strip, str(ingr_list).split(','))
 	for ingr in ingr_list:
 		query = "SELECT Ingredient.ingredient_id FROM Ingredient WHERE Ingredient.name = %s"
 		statement = "INSERT INTO Ingredient VALUES (0, %s)"

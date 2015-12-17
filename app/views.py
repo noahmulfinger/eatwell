@@ -21,10 +21,24 @@ def index():
 		flash(functions.get_flash_message("not_logged_in"))
 		return redirect(url_for('login'))
 
-	user_meals = functions.get_food_items(user_id)
-	user_symptoms = functions.get_symptoms(user_id)
+	user_meals = functions.get_food_items_index(user_id)
+	user_meals.reverse()
+	user_symptoms = functions.get_symptoms_index(user_id)
+	user_symptoms.reverse()
 
-	return render_template('index.html', user_meals=user_meals, user_symptoms=user_symptoms)
+	return render_template('index.html', user_meals=user_meals, user_symptoms=user_symptoms, isIndex = True)
+
+
+@app.route('/search', methods=['POST'])
+def search():
+	if not session.get(user_id):
+		flash(functions.get_flash_message("not_logged_in"))
+		return redirect(url_for('login'))
+
+	item_search = request.form['search']
+	found_items = functions.search_food_by_name(item_search, user_id)
+
+	return render_template('index.html', user_meals = found_items, user_symptoms = [], isIndex = False)
 
 
 
@@ -105,7 +119,13 @@ def add_item():
 		return redirect(url_for('login'))
 
 	input_name = request.form['input_food_item']
-	input_ingr = request.form['input_ingr']
+	input_ingr = request.form.getlist('input_ingr')
+
+	fItems = []
+	for i in input_ingr:
+		fItems.append(str(i))
+	
+
 	datetime = request.form['datetime']
 	back_url = request.form['back_url']
 
@@ -113,7 +133,7 @@ def add_item():
 
 		datetime = datetime + ':00'
 
-		functions.add_food_item(user_id, input_name, input_ingr, datetime)
+		functions.add_food_item(user_id, input_name, fItems, datetime)
 		flash(functions.get_flash_message("add_item"))
 		return redirect(url_for(back_url))
 
@@ -323,28 +343,18 @@ def autocomplete_ingredients(food_item):
 
 	if result is None:
 		return []
-	ingr_result = functions.get_item_ingredients(result[0]["item_id"])
 
-	ingr_names = []
-
-	for i in range(len(ingr_result)):
-		ingr_names.append(ingr_result[i]["name"])
+	all_ingr = []
 
 
-	# result = "hello"
-	
-	# conn = mysql.connect()
-	# cursor = conn.cursor()
-	# query = """SELECT Food_Item.name FROM Food_Item WHERE Food_Item.name LIKE %s"""
-	# cursor.execute(query, [search])
-	# data = cursor.fetchall()
-	# print data
-	# cursor.close() 
-	# conn.close()
+	for i in range(len(result)):
+		ingr_list = functions.get_item_ingredients(result[i]["item_id"])
+		for ingredient in ingr_list:
+			all_ingr.append(ingredient["name"])
 
-	# results.append()
-	#return jsonify(result)
-	return json.dumps(ingr_names)
+	all_ingr_names = list(set(all_ingr))
+
+	return json.dumps(all_ingr_names)
 
 # class SearchForm(Form):
 # 	function_name = TextField('function_name', validators = [Required()])
