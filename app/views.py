@@ -1,14 +1,11 @@
 from flask import Flask, g, render_template, session, request, redirect, url_for, flash, Markup, jsonify, json
 from werkzeug import generate_password_hash, check_password_hash
-from app import app, mysql, models #, login_manager
-
+from app import app, mysql, models
 import time, re
-
 import functions
 
-# Not the best way to do this, look in to Flask-Login
 global user_id
-user_id = 1
+user_id = None
 
 global user_name
 user_name = None
@@ -24,7 +21,7 @@ def index():
 		flash(functions.get_flash_message("not_logged_in"))
 		return redirect(url_for('login'))
 
-	user_meals = functions.get_food_items(user_id)
+	user_meals = functions.get_food_items_index(user_id)
 	user_symptoms = functions.get_symptoms(user_id)
 
 	return render_template('index.html', user_meals=user_meals, user_symptoms=user_symptoms, isIndex = True)
